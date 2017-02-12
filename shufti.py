@@ -27,6 +27,7 @@ class Shufti(QMainWindow):
             sys.exit(1)
         
         if (sys.argv[1]).lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp', '.pbm', '.pgm', '.ppm', '.xbm', '.xpm')):
+            self.zoom = 1
             self.initUI()
             self.setWindowTitle("shufti")
             self.resize(self.img.size())
@@ -52,7 +53,10 @@ class Shufti(QMainWindow):
     def keyPressEvent(self, event):
         if event.key() == QtCore.Qt.Key_F11 or event.key() == QtCore.Qt.Key_F:
             self.toggleFullscreen()
-        
+            
+    def wheelEvent(self, event):
+        self.zoom += event.angleDelta().y()/2880
+        self.view.scale(self.zoom, self.zoom)
         
 if __name__ == '__main__':
     
