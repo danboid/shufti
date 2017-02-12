@@ -4,7 +4,7 @@
 
 ### THE PLAN
 
-I'm pretty sure I have tried every image viewer available for Linux and thats quite a lot but none of them do what I want so I have been forced to create my own and there is nothing else it could possibly be called other than shufti, surely.
+I have tried almost every image viewer available for Linux. None of them do what I want so I have been forced to create my own, hence the creation of shufti!
 
 The main design goals of shufti are:
 
