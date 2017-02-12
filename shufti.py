@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 #
-# shufti - A WIP, PyQt5 persistent image viewer for Gahnooh slaash Leenoox.
+# shufti - A WIP, PyQt5 persistent image viewer
 #
 # By Dan MacDonald
 #
@@ -9,7 +9,7 @@
 #
 # Usage:
 #
-# python shufti.py path/to/image[.jpg|.png|.gif|.bmp]
+# python shufti.py path/to/image
 
 import sys
 from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsScene, QGraphicsView
@@ -19,9 +19,19 @@ class Shufti(QMainWindow):
     
     def __init__(self):
         super().__init__()
-        self.initUI()
-        self.setWindowTitle("shufti")
-        self.resize(999, 999)
+        try:
+            self.file = open(sys.argv[1], 'r')
+        except IOError:
+            print('There was an error opening the file')
+            sys.exit(1)
+        
+        if (sys.argv[1]).lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp', '.pbm', '.pgm', '.ppm', '.xbm', '.xpm')):
+            self.initUI()
+            self.setWindowTitle("shufti")
+            self.resize(999, 999)
+        else:
+            print("Unsupported file format")
+            sys.exit(1)
         
     def initUI(self):               
         

@@ -1,10 +1,8 @@
 # shufti
 
-## A WIP, PyQt5 persistent image viewer for Gahnooah slash Leenoox
+## A WIP, PyQt5 persistent image viewer
 
-shufti is currently not usable and has zero features, other than a rough design.
-
-## THE PLAN
+### THE PLAN
 
 I'm pretty sure I have tried every image viewer available for Linux and thats quite a lot but none of them do what I want so I have been forced to create my own and there is nothing else it could possibly be called other than shufti, surely.
 
