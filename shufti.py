@@ -28,17 +28,18 @@ class Shufti(QMainWindow):
         if (sys.argv[1]).lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp', '.pbm', '.pgm', '.ppm', '.xbm', '.xpm')):
             self.initUI()
             self.setWindowTitle("shufti")
-            self.resize(999, 999)
+            self.resize(self.img.size())
         else:
             print("Unsupported file format")
             sys.exit(1)
         
     def initUI(self):               
         
+        self.img = QPixmap(sys.argv[1])
         self.scene = QGraphicsScene()
-        self.scene.addPixmap(QPixmap(sys.argv[1]))
+        self.scene.addPixmap(self.img)
         self.view = QGraphicsView(self.scene, self)
-        self.view.resize(999, 999)
+        self.view.resize(self.img.width() + 2, self.img.height() + 2)
         self.show()
         
         
