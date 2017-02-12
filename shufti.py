@@ -12,8 +12,9 @@
 # python shufti.py path/to/image
 
 import sys
-from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsScene, QGraphicsView
+from PyQt5 import QtCore
 from PyQt5.QtGui import QPixmap
+from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsScene, QGraphicsView
 
 class Shufti(QMainWindow):
     
@@ -41,6 +42,16 @@ class Shufti(QMainWindow):
         self.view = QGraphicsView(self.scene, self)
         self.view.resize(self.img.width() + 2, self.img.height() + 2)
         self.show()
+        
+    def toggleFullscreen(self):
+        if self.isFullScreen():
+            self.showNormal()
+        else:
+            self.showFullScreen()
+            
+    def keyPressEvent(self, event):
+        if event.key() == QtCore.Qt.Key_F11 or event.key() == QtCore.Qt.Key_F:
+            self.toggleFullscreen()
         
         
 if __name__ == '__main__':
