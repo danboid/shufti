@@ -6,6 +6,10 @@
 # By Dan MacDonald
 #
 # 2017
+#
+# Usage:
+#
+# python shufti.py path/to/image[.jpg|.png|.gif|.bmp]
 
 import sys
 from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsScene, QGraphicsView
@@ -19,11 +23,10 @@ class Shufti(QMainWindow):
         self.setWindowTitle("shufti")
         self.resize(999, 999)
         
-        
     def initUI(self):               
         
         self.scene = QGraphicsScene()
-        self.scene.addPixmap(QPixmap("/home/dan/pic.jpg"))
+        self.scene.addPixmap(QPixmap(sys.argv[1]))
         self.view = QGraphicsView(self.scene, self)
         self.view.resize(999, 999)
         self.show()
