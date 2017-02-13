@@ -1,15 +1,14 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
-#
-# shufti - A WIP, PyQt5 persistent image viewer
-#
-# By Dan MacDonald
-#
-# 2017
-#
-# Usage:
-#
-# python shufti.py path/to/image
+'''
+shufti - A WIP, PyQt5 persistent image viewer
+
+By Dan MacDonald, 2017
+
+Usage:
+
+python shufti.py path/to/image
+'''
 
 import sys
 from PyQt5 import QtCore
@@ -42,6 +41,8 @@ class Shufti(QMainWindow):
         self.scene.addPixmap(self.img)
         self.view = QGraphicsView(self.scene, self)
         self.view.resize(self.img.width() + 2, self.img.height() + 2)
+        self.view.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        self.view.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.show()
         
     def toggleFullscreen(self):
@@ -53,10 +54,21 @@ class Shufti(QMainWindow):
     def keyPressEvent(self, event):
         if event.key() == QtCore.Qt.Key_F11 or event.key() == QtCore.Qt.Key_F:
             self.toggleFullscreen()
-            
+        elif event.key() == QtCore.Qt.Key_Equal:
+            self.zoom += 0.1
+            self.view.scale(self.zoom, self.zoom)
+        elif event.key() == QtCore.Qt.Key_Minus:
+            self.zoom -= 0.1
+            self.view.scale(self.zoom, self.zoom)
+
+'''
+I'd like to have mousewheel zoom, but I've been unable to stop Qt clashing with the
+QGraphicsView vertical scrollbars that appear when you zoom into an image.
+
     def wheelEvent(self, event):
         self.zoom += event.angleDelta().y()/2880
         self.view.scale(self.zoom, self.zoom)
+'''
         
 if __name__ == '__main__':
     
