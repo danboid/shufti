@@ -62,10 +62,10 @@ class Shufti(ShuftiWindow):
         if event.key() == QtCore.Qt.Key_F11 or event.key() == QtCore.Qt.Key_F:
             self.toggleFullscreen()
         elif event.key() == QtCore.Qt.Key_Equal:
-            self.zoom += 0.1
+            self.zoom *= 1.05
             self.view.scale(self.zoom, self.zoom)
         elif event.key() == QtCore.Qt.Key_Minus:
-            self.zoom -= 0.1
+            self.zoom = 1 - (self.zoom / 20)
             self.view.scale(self.zoom, self.zoom)
 
 '''
