@@ -15,7 +15,14 @@ from PyQt5 import QtCore
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsScene, QGraphicsView
 
-class Shufti(QMainWindow):
+class ShuftiWindow(QMainWindow):
+    
+    def resizeEvent(self,resizeEvent):
+        width = self.frameGeometry().width()
+        height = self.frameGeometry().height()
+        self.view.resize(width + 2, height + 2)
+
+class Shufti(ShuftiWindow):
     
     def __init__(self):
         super().__init__()
