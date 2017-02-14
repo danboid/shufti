@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
+
 '''
-shufti - A WIP, PyQt5 persistent image viewer
+shufti - A persistent, PyQt5-based image viewer
 
 By Dan MacDonald, 2017
 
@@ -50,15 +51,18 @@ class Shufti(ShuftiWindow):
         self.view.resize(self.img.width() + 2, self.img.height() + 2)
         self.view.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.view.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        self.view.setDragMode(QGraphicsView.ScrollHandDrag)
         self.show()
         
     def toggleFullscreen(self):
+        
         if self.isFullScreen():
             self.showNormal()
         else:
             self.showFullScreen()
             
     def keyPressEvent(self, event):
+        
         if event.key() == QtCore.Qt.Key_F11 or event.key() == QtCore.Qt.Key_F:
             self.toggleFullscreen()
         elif event.key() == QtCore.Qt.Key_Equal:

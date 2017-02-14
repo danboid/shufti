@@ -1,10 +1,12 @@
 # shufti
 
-## A WIP, PyQt5 persistent image viewer
+## A persistent, PyQt5-based image viewer
 
 ### THE PLAN
 
 I have tried almost every image viewer available for Linux. None of them do what I want so I have been forced to create my own, hence the creation of shufti!
+
+Shufti already works as a very simple image viewer but its central feature is currently missing.
 
 The main design goals of shufti are:
 
