@@ -39,8 +39,9 @@ class Shufti(ShuftiWindow):
             self.dbdir = os.path.dirname(self.dbfile)
             if not os.path.exists(self.dbdir):
                 self.createDB()
-            self.query = QtSql.QSqlQuery()
+            self.db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
             self.db.setDatabaseName(self.dbfile)
+            self.query = QtSql.QSqlQuery()
             self.db.open()
             self.zoom = 1
             self.initUI()
