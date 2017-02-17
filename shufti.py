@@ -25,6 +25,11 @@ class ShuftiWindow(QMainWindow):
         width = self.frameGeometry().width()
         height = self.frameGeometry().height()
         self.view.resize(width + 2, height + 2)
+        
+    def closeEvent(self, event):
+        if self.inshuft == 0:
+            self.query.exec_("insert into shuftery values('" + str(sys.argv[1]) + "', " + str(self.zoom) + ", 456, 546, 665, 556, 5636, 333)")
+            self.db.close()
 
 class Shufti(ShuftiWindow):
     
@@ -104,7 +109,6 @@ class Shufti(ShuftiWindow):
         self.query.exec_("create table shuftery(filename text primary key, "
         "zoom real, winposx int, winposy int, winsizex int, winsizey int, "
         "hscroll int, vscroll int)")
-        self.query.exec_("insert into shuftery values('/home/dan/file.png', 1.111, 456, 546, 665, 556, 5636, 333)")
         return True
         
 
