@@ -17,6 +17,8 @@ from PyQt5.QtGui import QPixmap
 from os.path import expanduser, dirname
 from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsScene, QGraphicsView
 
+# We need to sublass QMainWindow to enable realtime resizing of the QGrapicsView
+# display area when the user resizes a window
 class ShuftiWindow(QMainWindow):
     
     def resizeEvent(self,resizeEvent):
@@ -35,18 +37,29 @@ class Shufti(ShuftiWindow):
             sys.exit(1)
         
         if (sys.argv[1]).lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp', '.pbm', '.pgm', '.ppm', '.xbm', '.xpm')):
+            # If inshuft is 0, an image is not in shufti's image database
+            self.inshuft = 0
             self.dbfile = expanduser("~/.config/shufti/shufti.db")
             self.dbdir = os.path.dirname(self.dbfile)
             if not os.path.exists(self.dbdir):
                 self.createDB()
             self.db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
             self.db.setDatabaseName(self.dbfile)
-            self.query = QtSql.QSqlQuery()
             self.db.open()
-            self.zoom = 1
-            self.initUI()
-            self.setWindowTitle("shufti")
-            self.resize(self.img.size())
+            self.query = QtSql.QSqlQuery()
+            self.query.exec_("SELECT * FROM shuftery WHERE filename='" + str(sys.argv[1]) + "'")
+            while self.query.next():
+                print(self.query.value(0))
+                self.inshuft = 1
+            # If we have no inshuftery, we use the defaults
+            if self.inshuft == 0:
+                self.zoom = 1
+                self.initUI()
+                self.setWindowTitle("shufti")
+                self.resize(self.img.size())
+            else:
+                print("Code to display the image and window as it was goes here")
+                sys.exit(1)
         else:
             print("Unsupported file format")
             sys.exit(1)
