@@ -28,20 +28,23 @@ class ShuftiWindow(QMainWindow):
         
     def closeEvent(self, event):
         if self.inshuft == 0:
-            self.query.exec_("insert into shuftery values('" + str(sys.argv[1]) + "', " + str(self.zoom) + ", 456, 546, 665, 556, 5636, 333)")
+            self.query.exec_("insert into shuftery values('" + str(self.key) + 
+            "', " + str(self.zoom) + ", 456, 546, 665, 556, 5636, 333)")
             self.db.close()
 
 class Shufti(ShuftiWindow):
     
     def __init__(self):
         super().__init__()
+        self.key = sys.argv[1]
         try:
-            self.file = open(sys.argv[1], 'r')
+            open(self.key, 'r')
         except IOError:
             print('There was an error opening the file')
             sys.exit(1)
         
-        if (sys.argv[1]).lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp', '.pbm', '.pgm', '.ppm', '.xbm', '.xpm')):
+        if self.key.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp',
+         '.pbm', '.pgm', '.ppm', '.xbm', '.xpm')):
             # If inshuft is 0, an image is not in shufti's image database
             self.inshuft = 0
             self.dbfile = expanduser("~/.config/shufti/shufti.db")
@@ -52,7 +55,7 @@ class Shufti(ShuftiWindow):
             self.db.setDatabaseName(self.dbfile)
             self.db.open()
             self.query = QtSql.QSqlQuery()
-            self.query.exec_("SELECT * FROM shuftery WHERE filename='" + str(sys.argv[1]) + "'")
+            self.query.exec_("SELECT * FROM shuftery WHERE filename='" + str(self.key) + "'")
             while self.query.next():
                 print(self.query.value(0))
                 self.inshuft = 1
@@ -71,7 +74,7 @@ class Shufti(ShuftiWindow):
         
     def initUI(self):               
         
-        self.img = QPixmap(sys.argv[1])
+        self.img = QPixmap(self.key)
         self.scene = QGraphicsScene()
         self.scene.addPixmap(self.img)
         self.view = QGraphicsView(self.scene, self)
