@@ -112,12 +112,11 @@ class Shufti(ShuftiWindow):
             for _ in range((self.zoomlev * -1)):
                 self.zoom = 1 - (self.zoom / 20)
                 self.view.scale(self.zoom, self.zoom)
-        # Attempt to restore panning / scrollbar positions
+        self.show()
         self.view.verticalScrollBar().setValue(self.vscroll)
         self.view.horizontalScrollBar().setValue(self.hscroll)
         # Attempt at placing window
         #self.view.mapToGlobal(QtCore.QPoint(self.winposx, self.winposy))
-        self.show()
         
     def toggleFullscreen(self):
         
