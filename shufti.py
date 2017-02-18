@@ -102,8 +102,6 @@ class Shufti(ShuftiWindow):
         
     def oldImage(self):
         
-        self.resize(self.winsizex, self.winsizey)
-        #self.view.resize(self.winsizex + 2, self.winsizey + 2)
         if self.zoomlev > 0:
             for _ in range(self.zoomlev):
                 self.zoom *= 1.05
@@ -113,10 +111,9 @@ class Shufti(ShuftiWindow):
                 self.zoom = 1 - (self.zoom / 20)
                 self.view.scale(self.zoom, self.zoom)
         self.show()
+        self.setGeometry(self.winposx, self.winposy, self.winsizex, self.winsizey)
         self.view.verticalScrollBar().setValue(self.vscroll)
         self.view.horizontalScrollBar().setValue(self.hscroll)
-        # Attempt at placing window
-        #self.view.mapToGlobal(QtCore.QPoint(self.winposx, self.winposy))
         
     def toggleFullscreen(self):
         
