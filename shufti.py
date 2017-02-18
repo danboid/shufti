@@ -27,12 +27,14 @@ class ShuftiWindow(QMainWindow):
         self.view.resize(width + 2, height + 2)
         
     def closeEvent(self, event):
+        winsizex = self.frameGeometry().width()
+        winsizey = self.frameGeometry().height()
         vscroll = self.view.verticalScrollBar().value()
         hscroll = self.view.horizontalScrollBar().value()
         if self.inshuft == 0:
             self.query.exec_("insert into shuftery values('" + str(self.key) + 
-            "', " + str(self.zoom) + ", 456, 546, 665, 556, " + str(hscroll) + 
-            ", " + str(vscroll) + ")")
+            "', " + str(self.zoom) + ", 456, 546, " + str(winsizex) + ", " + 
+            str(winsizey) + ", " + str(hscroll) + ", " + str(vscroll) + ")")
             self.db.close()
 
 class Shufti(ShuftiWindow):
