@@ -64,9 +64,17 @@ class Shufti(ShuftiWindow):
             self.db.open()
             self.query = QtSql.QSqlQuery()
             self.query.exec_("SELECT * FROM shuftery WHERE filename='" + str(self.key) + "'")
-            while self.query.next():
-                print(self.query.value(0))
+            # If the image is found in shufti.db, load the previous view settings
+            while self.query.next() and self.inshuft == 0:
+                self.zoom = self.query.value(1)
+                self.winposx = self.query.value(2)
+                self.winposy = self.query.value(3)
+                self.winsizex = self.query.value(4)
+                self.winsizey = self.query.value(5)
+                self.hscroll = self.query.value(6)
+                self.vscroll = self.query.value(7)
                 self.inshuft = 1
+            # Set common window attributes
             self.setWindowTitle("shufti")
             self.img = QPixmap(self.key)
             self.scene = QGraphicsScene()
@@ -79,8 +87,7 @@ class Shufti(ShuftiWindow):
             if self.inshuft == 0:
                 self.newImage()
             else:
-                print("Code to display the image and window as it was goes here")
-                sys.exit(1)
+                self.oldImage()
         else:
             print("Unsupported file format")
             sys.exit(1)
@@ -90,6 +97,16 @@ class Shufti(ShuftiWindow):
         self.zoom = 1
         self.resize(self.img.size())
         self.view.resize(self.img.width() + 2, self.img.height() + 2)
+        self.show()
+        
+    def oldImage(self):
+        
+        self.resize(self.winsizex, self.winsizey)
+        #self.view.resize(self.winsizex + 2, self.winsizey + 2)
+        # None of the following work as hoped yet
+        self.view.mapToGlobal(QtCore.QPoint(self.winposx, self.winposy))
+        self.view.scale(self.zoom, self.zoom)
+        self.view.scrollContentsBy(self.hscroll, self.vscroll)
         self.show()
         
     def toggleFullscreen(self):
