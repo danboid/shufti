@@ -31,10 +31,13 @@ class ShuftiWindow(QMainWindow):
         winsizey = self.frameGeometry().height()
         vscroll = self.view.verticalScrollBar().value()
         hscroll = self.view.horizontalScrollBar().value()
+        winposx = self.pos().x()
+        winposy = self.pos().y()
         if self.inshuft == 0:
             self.query.exec_("insert into shuftery values('" + str(self.key) + 
-            "', " + str(self.zoom) + ", 456, 546, " + str(winsizex) + ", " + 
-            str(winsizey) + ", " + str(hscroll) + ", " + str(vscroll) + ")")
+            "', " + str(self.zoom) + ", " + str(winposx) + ", " + str(winposy) + 
+            ", " + str(winsizex) + ", " + str(winsizey) + ", " + str(hscroll) + 
+            ", " + str(vscroll) + ")")
             self.db.close()
 
 class Shufti(ShuftiWindow):
