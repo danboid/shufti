@@ -39,6 +39,13 @@ class ShuftiWindow(QMainWindow):
             ", " + str(winsizex) + ", " + str(winsizey) + ", " + str(hscroll) + 
             ", " + str(vscroll) + ")")
             self.db.close()
+        else:
+            self.query.exec_("update shuftery set zoomlev=" + str(self.zoomlev) + 
+            ", winposx=" + str(winposx) + ", winposy=" + str(winposy) + 
+            ", winsizex=" + str(winsizex) + ", winsizey=" + str(winsizey) + 
+            ", hscroll=" + str(hscroll) + ", vscroll=" + str(vscroll) + 
+            " where filename='" + str(self.key) + "'")
+            self.db.close()
 
 class Shufti(ShuftiWindow):
     
