@@ -67,12 +67,17 @@ class Shufti(ShuftiWindow):
             while self.query.next():
                 print(self.query.value(0))
                 self.inshuft = 1
+            self.setWindowTitle("shufti")
+            self.img = QPixmap(self.key)
+            self.scene = QGraphicsScene()
+            self.scene.addPixmap(self.img)
+            self.view = QGraphicsView(self.scene, self)
+            self.view.setDragMode(QGraphicsView.ScrollHandDrag)
+            self.view.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+            self.view.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
             # If we have no inshuftery, we use the defaults
             if self.inshuft == 0:
-                self.zoom = 1
-                self.initUI()
-                self.setWindowTitle("shufti")
-                self.resize(self.img.size())
+                self.newImage()
             else:
                 print("Code to display the image and window as it was goes here")
                 sys.exit(1)
@@ -80,16 +85,11 @@ class Shufti(ShuftiWindow):
             print("Unsupported file format")
             sys.exit(1)
         
-    def initUI(self):               
+    def newImage(self):               
         
-        self.img = QPixmap(self.key)
-        self.scene = QGraphicsScene()
-        self.scene.addPixmap(self.img)
-        self.view = QGraphicsView(self.scene, self)
+        self.zoom = 1
+        self.resize(self.img.size())
         self.view.resize(self.img.width() + 2, self.img.height() + 2)
-        self.view.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        self.view.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        self.view.setDragMode(QGraphicsView.ScrollHandDrag)
         self.show()
         
     def toggleFullscreen(self):
