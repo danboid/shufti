@@ -35,7 +35,7 @@ class ShuftiWindow(QMainWindow):
         winposy = self.pos().y()
         if self.inshuft == 0:
             self.query.exec_("insert into shuftery values('" + str(self.key) + 
-            "', " + str(self.zoom) + ", " + str(winposx) + ", " + str(winposy) + 
+            "', " + str(self.zoomlev) + ", " + str(winposx) + ", " + str(winposy) + 
             ", " + str(winsizex) + ", " + str(winsizey) + ", " + str(hscroll) + 
             ", " + str(vscroll) + ")")
             self.db.close()
@@ -53,7 +53,7 @@ class Shufti(ShuftiWindow):
         
         if self.key.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp',
          '.pbm', '.pgm', '.ppm', '.xbm', '.xpm')):
-            # If inshuft is 0, an image is not in shufti's image database
+            # If inshuft = 0, an image is not in shufti's image database
             self.inshuft = 0
             self.dbfile = expanduser("~/.config/shufti/shufti.db")
             self.dbdir = os.path.dirname(self.dbfile)
@@ -66,7 +66,7 @@ class Shufti(ShuftiWindow):
             self.query.exec_("SELECT * FROM shuftery WHERE filename='" + str(self.key) + "'")
             # If the image is found in shufti.db, load the previous view settings
             while self.query.next() and self.inshuft == 0:
-                self.zoom = self.query.value(1)
+                self.zoomlev = self.query.value(1)
                 self.winposx = self.query.value(2)
                 self.winposy = self.query.value(3)
                 self.winsizex = self.query.value(4)
@@ -77,6 +77,7 @@ class Shufti(ShuftiWindow):
             # Set common window attributes
             self.setWindowTitle("shufti")
             self.img = QPixmap(self.key)
+            self.zoom = 1
             self.scene = QGraphicsScene()
             self.scene.addPixmap(self.img)
             self.view = QGraphicsView(self.scene, self)
@@ -94,7 +95,7 @@ class Shufti(ShuftiWindow):
         
     def newImage(self):               
         
-        self.zoom = 1
+        self.zoomlev = 0
         self.resize(self.img.size())
         self.view.resize(self.img.width() + 2, self.img.height() + 2)
         self.show()
@@ -103,9 +104,16 @@ class Shufti(ShuftiWindow):
         
         self.resize(self.winsizex, self.winsizey)
         #self.view.resize(self.winsizex + 2, self.winsizey + 2)
-        # None of the following work as hoped yet
+        if self.zoomlev > 0:
+            for _ in range(self.zoomlev):
+                self.zoom *= 1.05
+                self.view.scale(self.zoom, self.zoom)
+        elif self.zoomlev < 0:
+            for _ in range((self.zoomlev * -1)):
+                self.zoom = 1 - (self.zoom / 20)
+                self.view.scale(self.zoom, self.zoom)
+        # Not sure about these:
         self.view.mapToGlobal(QtCore.QPoint(self.winposx, self.winposy))
-        self.view.scale(self.zoom, self.zoom)
         self.view.scrollContentsBy(self.hscroll, self.vscroll)
         self.show()
         
@@ -123,9 +131,11 @@ class Shufti(ShuftiWindow):
         elif event.key() == QtCore.Qt.Key_Equal:
             self.zoom *= 1.05
             self.view.scale(self.zoom, self.zoom)
+            self.zoomlev += 1
         elif event.key() == QtCore.Qt.Key_Minus:
             self.zoom = 1 - (self.zoom / 20)
             self.view.scale(self.zoom, self.zoom)
+            self.zoomlev -= 1
             
     def createDB(self):
         
@@ -135,7 +145,7 @@ class Shufti(ShuftiWindow):
         self.query = QtSql.QSqlQuery()
         self.db.open()
         self.query.exec_("create table shuftery(filename text primary key, "
-        "zoom real, winposx int, winposy int, winsizex int, winsizey int, "
+        "zoomlev int, winposx int, winposy int, winsizex int, winsizey int, "
         "hscroll int, vscroll int)")
         return True
         
