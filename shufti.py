@@ -42,8 +42,8 @@ class ShuftiWindow(QMainWindow):
         self.view.resize(width + 2, height + 2)
         
     def closeEvent(self, event):
-        winsizex = self.frameGeometry().width()
-        winsizey = self.frameGeometry().height()
+        winsizex = self.geometry().width()
+        winsizey = self.geometry().height()
         vscroll = self.view.verticalScrollBar().value()
         hscroll = self.view.horizontalScrollBar().value()
         winposx = self.pos().x()
@@ -124,7 +124,6 @@ class Shufti(ShuftiWindow):
         
     def oldImage(self):
         
-        print (self.zoomlev)
         if self.zoomlev > 0:
             for _ in range(self.zoomlev):
                 self.zoom *= 1.05
