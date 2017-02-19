@@ -9,6 +9,9 @@ By Dan MacDonald, 2017
 Usage:
 
 python shufti.py path/to/image
+
+You may want to associate shufti with image files in your file manager rather than
+use it from the terminal.
 '''
 
 import os, sys
@@ -17,8 +20,20 @@ from PyQt5.QtGui import QPixmap
 from os.path import expanduser, dirname
 from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsScene, QGraphicsView
 
+class ShuftiView(QGraphicsView):
+    
+    def wheelEvent(self, event):
+        
+        moose = event.angleDelta().y()/120
+        if moose > 0:
+            shufti.zoomIn()
+        elif moose < 0:
+            shufti.zoomOut()
+            
+    
 # We need to sublass QMainWindow to enable realtime resizing of the QGrapicsView
 # display area when the user resizes a window
+
 class ShuftiWindow(QMainWindow):
     
     def resizeEvent(self,resizeEvent):
@@ -87,7 +102,7 @@ class Shufti(ShuftiWindow):
             self.zoom = 1
             self.scene = QGraphicsScene()
             self.scene.addPixmap(self.img)
-            self.view = QGraphicsView(self.scene, self)
+            self.view = ShuftiView(self.scene, self)
             self.view.setDragMode(QGraphicsView.ScrollHandDrag)
             self.view.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
             self.view.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
@@ -109,6 +124,7 @@ class Shufti(ShuftiWindow):
         
     def oldImage(self):
         
+        print (self.zoomlev)
         if self.zoomlev > 0:
             for _ in range(self.zoomlev):
                 self.zoom *= 1.05
@@ -134,13 +150,9 @@ class Shufti(ShuftiWindow):
         if event.key() == QtCore.Qt.Key_F11 or event.key() == QtCore.Qt.Key_F:
             self.toggleFullscreen()
         elif event.key() == QtCore.Qt.Key_Equal:
-            self.zoom *= 1.05
-            self.view.scale(self.zoom, self.zoom)
-            self.zoomlev += 1
+            self.zoomIn()
         elif event.key() == QtCore.Qt.Key_Minus:
-            self.zoom = 1 - (self.zoom / 20)
-            self.view.scale(self.zoom, self.zoom)
-            self.zoomlev -= 1
+            self.zoomOut()
             
     def createDB(self):
         
@@ -154,15 +166,17 @@ class Shufti(ShuftiWindow):
         "hscroll int, vscroll int)")
         return True
         
-
-'''
-I'd like to have mousewheel zoom, but I've been unable to stop Qt clashing with the
-QGraphicsView vertical scrollbars that appear when you zoom into an image.
-
-    def wheelEvent(self, event):
-        self.zoom += event.angleDelta().y()/2880
+    def zoomIn(self):
+        
+        self.zoom *= 1.05
         self.view.scale(self.zoom, self.zoom)
-'''
+        self.zoomlev += 1
+        
+    def zoomOut(self):
+        
+        self.zoom = 1 - (self.zoom / 20)
+        self.view.scale(self.zoom, self.zoom)
+        self.zoomlev -= 1
         
 if __name__ == '__main__':
     
