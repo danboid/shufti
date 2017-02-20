@@ -142,6 +142,10 @@ class Shufti(ShuftiWindow):
         elif event.key() == QtCore.Qt.Key_Minus:
             self.zoomOut()
             
+    def mouseDoubleClickEvent(self, event):
+        
+        self.toggleFullscreen()
+            
     def createDB(self):
         
         os.makedirs(self.dbdir)
