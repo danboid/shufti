@@ -72,7 +72,7 @@ class Shufti(ShuftiWindow):
         
         if self.key.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp',
          '.pbm', '.pgm', '.ppm', '.xbm', '.xpm')):
-            # If inshuft = 0, an image is not in shufti's image database
+            # If inshuft = 0, the image is not in shufti's image database
             self.inshuft = 0
             self.dbfile = expanduser("~/.config/shufti/shufti.db")
             self.dbdir = os.path.dirname(self.dbfile)
@@ -141,6 +141,9 @@ class Shufti(ShuftiWindow):
             self.zoomIn()
         elif event.key() == QtCore.Qt.Key_Minus:
             self.zoomOut()
+        elif event.key() == QtCore.Qt.Key_1:
+            self.zoom = 1
+            self.view.setTransform(QTransform().scale(1, 1))
             
     def mouseDoubleClickEvent(self, event):
         
