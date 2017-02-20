@@ -8,7 +8,7 @@ By Dan MacDonald, 2017
 
 Usage:
 
-python shufti.py path/to/image
+shufti.py path/to/image
 
 You may want to associate shufti with image files in your file manager rather than
 use it from the terminal.
@@ -16,7 +16,7 @@ use it from the terminal.
 
 import os, sys
 from PyQt5 import QtCore, QtSql
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QTransform
 from os.path import expanduser, dirname
 from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsScene, QGraphicsView
 
@@ -29,10 +29,6 @@ class ShuftiView(QGraphicsView):
             shufti.zoomIn()
         elif moose < 0:
             shufti.zoomOut()
-            
-    
-# We need to sublass QMainWindow to enable realtime resizing of the QGrapicsView
-# display area when the user resizes a window
 
 class ShuftiWindow(QMainWindow):
     
@@ -42,6 +38,7 @@ class ShuftiWindow(QMainWindow):
         self.view.resize(width + 2, height + 2)
         
     def closeEvent(self, event):
+        
         winsizex = self.geometry().width()
         winsizey = self.geometry().height()
         vscroll = self.view.verticalScrollBar().value()
@@ -50,12 +47,12 @@ class ShuftiWindow(QMainWindow):
         winposy = self.pos().y()
         if self.inshuft == 0:
             self.query.exec_("insert into shuftery values('" + str(self.key) + 
-            "', " + str(self.zoomlev) + ", " + str(winposx) + ", " + str(winposy) + 
+            "', " + str(self.zoom) + ", " + str(winposx) + ", " + str(winposy) + 
             ", " + str(winsizex) + ", " + str(winsizey) + ", " + str(hscroll) + 
             ", " + str(vscroll) + ")")
             self.db.close()
         else:
-            self.query.exec_("update shuftery set zoomlev=" + str(self.zoomlev) + 
+            self.query.exec_("update shuftery set zoom=" + str(self.zoom) + 
             ", winposx=" + str(winposx) + ", winposy=" + str(winposy) + 
             ", winsizex=" + str(winsizex) + ", winsizey=" + str(winsizey) + 
             ", hscroll=" + str(hscroll) + ", vscroll=" + str(vscroll) + 
@@ -88,7 +85,7 @@ class Shufti(ShuftiWindow):
             self.query.exec_("SELECT * FROM shuftery WHERE filename='" + str(self.key) + "'")
             # If the image is found in shufti.db, load the previous view settings
             while self.query.next() and self.inshuft == 0:
-                self.zoomlev = self.query.value(1)
+                self.zoom = self.query.value(1)
                 self.winposx = self.query.value(2)
                 self.winposy = self.query.value(3)
                 self.winsizex = self.query.value(4)
@@ -99,7 +96,6 @@ class Shufti(ShuftiWindow):
             # Set common window attributes
             self.setWindowTitle("shufti")
             self.img = QPixmap(self.key)
-            self.zoom = 1
             self.scene = QGraphicsScene()
             self.scene.addPixmap(self.img)
             self.view = ShuftiView(self.scene, self)
@@ -117,21 +113,14 @@ class Shufti(ShuftiWindow):
         
     def newImage(self):               
         
-        self.zoomlev = 0
+        self.zoom = 1
         self.resize(self.img.size())
         self.view.resize(self.img.width() + 2, self.img.height() + 2)
         self.show()
         
     def oldImage(self):
         
-        if self.zoomlev > 0:
-            for _ in range(self.zoomlev):
-                self.zoom *= 1.05
-                self.view.scale(self.zoom, self.zoom)
-        elif self.zoomlev < 0:
-            for _ in range((self.zoomlev * -1)):
-                self.zoom = 1 - (self.zoom / 20)
-                self.view.scale(self.zoom, self.zoom)
+        self.view.setTransform(QTransform().scale(self.zoom, self.zoom))
         self.show()
         self.setGeometry(self.winposx, self.winposy, self.winsizex, self.winsizey)
         self.view.verticalScrollBar().setValue(self.vscroll)
@@ -161,21 +150,19 @@ class Shufti(ShuftiWindow):
         self.query = QtSql.QSqlQuery()
         self.db.open()
         self.query.exec_("create table shuftery(filename text primary key, "
-        "zoomlev int, winposx int, winposy int, winsizex int, winsizey int, "
+        "zoom real, winposx int, winposy int, winsizex int, winsizey int, "
         "hscroll int, vscroll int)")
         return True
         
     def zoomIn(self):
         
         self.zoom *= 1.05
-        self.view.scale(self.zoom, self.zoom)
-        self.zoomlev += 1
+        self.view.setTransform(QTransform().scale(self.zoom, self.zoom))
         
     def zoomOut(self):
         
-        self.zoom = 1 - (self.zoom / 20)
-        self.view.scale(self.zoom, self.zoom)
-        self.zoomlev -= 1
+        self.zoom /= 1.05
+        self.view.setTransform(QTransform().scale(self.zoom, self.zoom))
         
 if __name__ == '__main__':
     
