@@ -16,16 +16,20 @@ shufti is free and open source software and should run on any platform that can 
 
 On Debian and Ubuntu-based distros:
 
+```
  $ sudo apt install git python-pyqt5
  $ git clone https://github.com/danboid/shufti.git
  $ chmod +x ./shufti/shufti.py
  $ sudo cp ./shufti/shufti.py /usr/local/bin/shufti
+```
 
 ## USAGE
 
 Run:
 
+```
  $ shufti /full/path/to/image/file
+```
 
 To view the file. The view settings are saved when you close the window and restored next time you open that file in that directory.
 
