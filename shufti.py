@@ -94,7 +94,8 @@ class Shufti(ShuftiWindow):
                 self.vscroll = self.query.value(7)
                 self.inshuft = 1
             # Set common window attributes
-            self.setWindowTitle("shufti")
+            self.path, self.title = os.path.split(self.key)
+            self.setWindowTitle(str(self.title) + " - shufti")
             self.img = QPixmap(self.key)
             self.scene = QGraphicsScene()
             self.scene.addPixmap(self.img)
