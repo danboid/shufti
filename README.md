@@ -2,15 +2,15 @@
 
 ## The persistent image viewer
 
-## By Dan MacDonald, 2017
+### By Dan MacDonald, 2017
 
-**shufti** is a simple PyQt5, SQLite database-powered image viewer. It's main feature, and the reason it was created, is that it automatically saves and restores the zoom level, window size, desktop location and the scrollbar positions (ie viewing area) on a per-image basis, for every image it loads. It supports viewing .jpg, .png, .gif and .bmp files, amongst others.
+**shufti** is a simple PyQt5, SQLite database-backed image viewer. Its main feature, and the reason it was created, is that it automatically saves and restores the zoom level, rotation, window size, desktop location and the scrollbar positions (ie viewing area) for every image it loads, on a per-image/location basis. It supports viewing .jpg, .png, .gif and .bmp files, amongst others.
 
-shufti has no UI and that is by design. It aims to be efficient and lightweight, it will never edit images, play videos or do you a brew. It's complete and uncompressed source code is less that 7 Kilobytes and less than 200 lines of code.
+shufti has no GUI (as in icons or menus) and that is by design. It aims to be efficient and lightweight - it will never edit images, play videos or do you a brew. Its complete and uncompressed source code is approx. 7KB and less than 200 lines of code.
 
 Due to its very nature, shufti will only be of use if you maintain the same display configuration ie screen / desktop config and resolution(s).
 
-shufti is free and open source software and should run on any platform that can run PyQt - that includes GNU/Linux, *BSD , macOS and Windows.
+shufti is free and open source software and should run on any platform that can run PyQt - that includes GNU/Linux, *BSD, macOS and Windows.
 
 ## INSTALLATION
 
@@ -35,8 +35,14 @@ To view the file. The view settings are saved when you close the window and rest
 
 You will most likely want to right-click on your image files in your file manager and use the **Open with command** option which is usually under the **Open with** tab under the right-click **Properties** menu of the image file, when selected under your desktop's file manager.
 
-**f key**, **F11** & **double click** all toggle full screen mode.
+**f key**, **F11** & **double click** toggle full screen mode.
 
 **-**, **+** and the mouse wheel zoom the view.
 
+**s** spins the image 90 degrees.
+
 **1** resets the zoom.
+
+## TODO
+
+* Zoom image to fit window
