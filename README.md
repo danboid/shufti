@@ -34,3 +34,9 @@ Run:
 To view the file. The view settings are saved when you close the window and restored next time you open that file in that directory.
 
 You will most likely want to right-click on your image files in your file manager and use the **Open with command** option which is usually under the **Open with** tab under the right-click **Properties** menu of the image file, when selected under your desktop's file manager.
+
+**f key**, **F11** & **double click** all toggle full screen mode.
+
+-, + and the mouse wheel zoom.
+
+1 resets zoom.
