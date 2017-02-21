@@ -37,6 +37,6 @@ You will most likely want to right-click on your image files in your file manage
 
 **f key**, **F11** & **double click** all toggle full screen mode.
 
--, + and the mouse wheel zoom.
+**-**, **+** and the mouse wheel zoom the view.
 
-1 resets zoom.
+**1** resets the zoom.
