@@ -49,14 +49,14 @@ class ShuftiWindow(QMainWindow):
             self.query.exec_("insert into shuftery values('" + str(self.key) + 
             "', " + str(self.zoom) + ", " + str(winposx) + ", " + str(winposy) + 
             ", " + str(winsizex) + ", " + str(winsizey) + ", " + str(hscroll) + 
-            ", " + str(vscroll) + ")")
+            ", " + str(vscroll) + ", " + str(self.rotate) + ")")
             self.db.close()
         else:
             self.query.exec_("update shuftery set zoom=" + str(self.zoom) + 
             ", winposx=" + str(winposx) + ", winposy=" + str(winposy) + 
             ", winsizex=" + str(winsizex) + ", winsizey=" + str(winsizey) + 
             ", hscroll=" + str(hscroll) + ", vscroll=" + str(vscroll) + 
-            " where filename='" + str(self.key) + "'")
+            ", rotate=" + str(self.rotate) + " where filename='" + str(self.key) + "'")
             self.db.close()
 
 class Shufti(ShuftiWindow):
@@ -74,6 +74,8 @@ class Shufti(ShuftiWindow):
          '.pbm', '.pgm', '.ppm', '.xbm', '.xpm')):
             # If inshuft = 0, the image is not in shufti's image database
             self.inshuft = 0
+            self.rotval = 0
+            self.rotvals = (0,-90,-180,-270)
             self.dbfile = expanduser("~/.config/shufti/shufti.db")
             self.dbdir = os.path.dirname(self.dbfile)
             if not os.path.exists(self.dbdir):
@@ -92,6 +94,7 @@ class Shufti(ShuftiWindow):
                 self.winsizey = self.query.value(5)
                 self.hscroll = self.query.value(6)
                 self.vscroll = self.query.value(7)
+                self.rotate = self.query.value(8)
                 self.inshuft = 1
             # Set common window attributes
             self.path, self.title = os.path.split(self.key)
@@ -115,13 +118,20 @@ class Shufti(ShuftiWindow):
     def newImage(self):               
         
         self.zoom = 1
+        self.rotate = 0
         self.resize(self.img.size())
         self.view.resize(self.img.width() + 2, self.img.height() + 2)
         self.show()
         
     def oldImage(self):
         
-        self.view.setTransform(QTransform().scale(self.zoom, self.zoom))
+        if self.rotate == -90:
+            self.rotval = 1
+        elif self.rotate == -180:
+            self.rotval = 2
+        elif self.rotate == -270:
+            self.rotval = 3
+        self.view.setTransform(QTransform().scale(self.zoom, self.zoom).rotate(self.rotate))
         self.show()
         self.setGeometry(self.winposx, self.winposy, self.winsizex, self.winsizey)
         self.view.verticalScrollBar().setValue(self.vscroll)
@@ -145,6 +155,13 @@ class Shufti(ShuftiWindow):
         elif event.key() == QtCore.Qt.Key_1:
             self.zoom = 1
             self.view.setTransform(QTransform().scale(1, 1))
+        elif event.key() == QtCore.Qt.Key_S:
+            if self.rotval < 3:
+                self.rotval += 1
+            elif self.rotval == 3:
+                self.rotval = 0
+            self.rotate = self.rotvals[self.rotval]
+            self.view.setTransform(QTransform().scale(self.zoom, self.zoom).rotate(self.rotate))
             
     def mouseDoubleClickEvent(self, event):
         
@@ -159,18 +176,18 @@ class Shufti(ShuftiWindow):
         self.db.open()
         self.query.exec_("create table shuftery(filename text primary key, "
         "zoom real, winposx int, winposy int, winsizex int, winsizey int, "
-        "hscroll int, vscroll int)")
+        "hscroll int, vscroll int, rotate int)")
         return True
         
     def zoomIn(self):
         
         self.zoom *= 1.05
-        self.view.setTransform(QTransform().scale(self.zoom, self.zoom))
+        self.view.setTransform(QTransform().scale(self.zoom, self.zoom).rotate(self.rotate))
         
     def zoomOut(self):
         
         self.zoom /= 1.05
-        self.view.setTransform(QTransform().scale(self.zoom, self.zoom))
+        self.view.setTransform(QTransform().scale(self.zoom, self.zoom).rotate(self.rotate))
         
 if __name__ == '__main__':
     
