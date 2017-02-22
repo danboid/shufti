@@ -131,7 +131,7 @@ class Shufti(ShuftiWindow):
             self.rotval = 2
         elif self.rotate == -270:
             self.rotval = 3
-        self.view.setTransform(QTransform().scale(self.zoom, self.zoom).rotate(self.rotate))
+        self.updateView()
         self.show()
         self.setGeometry(self.winposx, self.winposy, self.winsizex, self.winsizey)
         self.view.verticalScrollBar().setValue(self.vscroll)
@@ -179,12 +179,12 @@ class Shufti(ShuftiWindow):
     def zoomIn(self):
         
         self.zoom *= 1.05
-        self.view.setTransform(QTransform().scale(self.zoom, self.zoom).rotate(self.rotate))
+        self.updateView()
         
     def zoomOut(self):
         
         self.zoom /= 1.05
-        self.view.setTransform(QTransform().scale(self.zoom, self.zoom).rotate(self.rotate))
+        self.updateView()
         
     def rotateImg(self, clock):
         
@@ -194,6 +194,10 @@ class Shufti(ShuftiWindow):
         elif self.rotval < 0:
             self.rotval = 3
         self.rotate = self.rotvals[self.rotval]
+        self.updateView()
+        
+    def updateView(self):
+        
         self.view.setTransform(QTransform().scale(self.zoom, self.zoom).rotate(self.rotate))
         
 if __name__ == '__main__':
