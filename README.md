@@ -4,11 +4,11 @@
 
 ### By Dan MacDonald, 2017
 
-**shufti** is a simple PyQt5, SQLite database-backed image viewer. Its main feature, and the reason it was created, is that it automatically saves and restores the zoom level, rotation, window size, desktop location and the scrollbar positions (ie viewing area) for every image it loads, on a per-image/location basis. It supports viewing .jpg, .png, .gif and .bmp files, amongst others.
+**shufti** is a simple PyQt5, SQLite database-backed image viewer. It automatically saves and restores the zoom level, rotation, window size, desktop location and the scrollbar positions (ie viewing area) for every image it loads, on a per-image/location basis. It supports viewing .jpg, .png, .gif and .bmp files, amongst others.
 
-shufti has no GUI (as in icons or menus) and that is by design. It aims to be efficient and lightweight - it will never edit images, play videos or do you a brew. Its complete and uncompressed source code is approx. 7KB and less than 200 lines of code.
+shufti has no GUI (as in icons or menus) and that is by design. It aims to be efficient and lightweight - it will never edit images, play videos or do you a brew. Its complete and uncompressed source code is little more than 7KB.
 
-Due to its very nature, shufti will only be of use if you maintain the same display configuration ie screen / desktop config and resolution(s).
+Due to its nature, shufti will only be of use if you maintain the same display configuration ie screen / desktop config and resolution(s).
 
 shufti is free and open source software and should run on any platform that can run PyQt - that includes GNU/Linux, *BSD, macOS and Windows.
 
@@ -37,9 +37,11 @@ You will most likely want to right-click on your image files in your file manage
 
 **f key**, **F11** & **double click** toggle full screen mode.
 
+**r** rotates the image 90 degrees counter-clockwise.
+
 **-**, **+** and the mouse wheel zoom the view.
 
-**s** spins the image 90 degrees.
+**s** spins the image 90 degrees clockwise.
 
 **1** resets the zoom.
 
