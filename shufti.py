@@ -156,12 +156,9 @@ class Shufti(ShuftiWindow):
             self.zoom = 1
             self.view.setTransform(QTransform().scale(1, 1))
         elif event.key() == QtCore.Qt.Key_S:
-            if self.rotval < 3:
-                self.rotval += 1
-            elif self.rotval == 3:
-                self.rotval = 0
-            self.rotate = self.rotvals[self.rotval]
-            self.view.setTransform(QTransform().scale(self.zoom, self.zoom).rotate(self.rotate))
+            self.rotateImg(-1)
+        elif event.key() == QtCore.Qt.Key_R:
+            self.rotateImg(1)
             
     def mouseDoubleClickEvent(self, event):
         
@@ -187,6 +184,16 @@ class Shufti(ShuftiWindow):
     def zoomOut(self):
         
         self.zoom /= 1.05
+        self.view.setTransform(QTransform().scale(self.zoom, self.zoom).rotate(self.rotate))
+        
+    def rotateImg(self, clock):
+        
+        self.rotval += clock
+        if self.rotval == 4:
+            self.rotval = 0
+        elif self.rotval < 0:
+            self.rotval = 3
+        self.rotate = self.rotvals[self.rotval]
         self.view.setTransform(QTransform().scale(self.zoom, self.zoom).rotate(self.rotate))
         
 if __name__ == '__main__':
