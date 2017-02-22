@@ -154,7 +154,7 @@ class Shufti(ShuftiWindow):
             self.zoomOut()
         elif event.key() == QtCore.Qt.Key_1:
             self.zoom = 1
-            self.view.setTransform(QTransform().scale(1, 1))
+            self.updateView()
         elif event.key() == QtCore.Qt.Key_S:
             self.rotateImg(-1)
         elif event.key() == QtCore.Qt.Key_R:
