@@ -146,7 +146,7 @@ class Shufti(ShuftiWindow):
             
     def keyPressEvent(self, event):
         
-        if event.key() == QtCore.Qt.Key_F11 or event.key() == QtCore.Qt.Key_F:
+        if event.key() == QtCore.Qt.Key_V:
             self.toggleFullscreen()
         elif event.key() == QtCore.Qt.Key_Equal:
             self.zoomIn()
@@ -159,6 +159,12 @@ class Shufti(ShuftiWindow):
             self.rotateImg(-1)
         elif event.key() == QtCore.Qt.Key_R:
             self.rotateImg(1)
+        elif event.key() == QtCore.Qt.Key_F:
+            self.view.fitInView(self.scene.sceneRect(), QtCore.Qt.KeepAspectRatio)
+            if self.rotate == 0 or self.rotate == -180:
+                self.zoom = self.view.transform().m11()
+            else:
+                self.zoom = self.view.transform().m12()
             
     def mouseDoubleClickEvent(self, event):
         
