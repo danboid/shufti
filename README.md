@@ -35,16 +35,14 @@ To view the file. The view settings are saved when you close the window and rest
 
 You will most likely want to right-click on your image files in your file manager and use the **Open with command** option which is usually under the **Open with** tab under the right-click **Properties** menu of the image file, when selected under your desktop's file manager.
 
-**f key**, **F11** & **double click** toggle full screen mode.
-
 **r** rotates the image 90 degrees counter-clockwise.
 
-**-**, **+** and the mouse wheel zoom the view.
+**-**, **+** and the **mouse wheel** zoom the view.
+
+**v** & **double click** toggle full screen view.
 
 **s** spins the image 90 degrees clockwise.
 
+**f** fits the image into the window.
+
 **1** resets the zoom.
-
-## TODO
-
-* Zoom image to fit window
