@@ -2,9 +2,11 @@
 # -*- coding: utf-8 -*-
 
 '''
-shufti - A persistent, PyQt5-based image viewer
+shufti - The persistent image viewer
 
-By Dan MacDonald, 2017
+By Dan MacDonald, 2017.
+
+Licensed under the GNU GPL v3 (or later), Affero edition.
 
 Usage:
 
@@ -71,7 +73,8 @@ class Shufti(ShuftiWindow):
             sys.exit(1)
         
         if self.key.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp',
-         '.pbm', '.pgm', '.ppm', '.xbm', '.xpm')):
+         '.pbm', '.pgm', '.ppm', '.xbm', '.xpm', '.dds', '.icns', '.jp2', 
+         '.mng', '.tga', '.tiff', '.wbmp', '.webp')):
             # If inshuft = 0, the image is not in shufti's image database
             self.inshuft = 0
             self.rotval = 0
