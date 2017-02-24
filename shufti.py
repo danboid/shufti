@@ -167,8 +167,12 @@ class Shufti(ShuftiWindow):
             self.rotateImg(1)
         elif event.key() == QtCore.Qt.Key_F:
             self.view.fitInView(self.scene.sceneRect(), QtCore.Qt.KeepAspectRatio)
-            if self.rotate == 0 or self.rotate == -180:
+            if self.rotate == 0:
                 self.zoom = self.view.transform().m11()
+            elif self.rotate == -90:
+                self.zoom = (self.view.transform().m12()) * -1
+            elif self.rotate == -180:
+                self.zoom = (self.view.transform().m11()) * -1
             else:
                 self.zoom = self.view.transform().m12()
             
