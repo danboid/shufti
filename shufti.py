@@ -6,7 +6,7 @@ shufti - The persistent image viewer
 
 By Dan MacDonald, 2017.
 
-Licensed under the GNU GPL v3 (or later), Affero edition.
+Licensed under the latest GNU Affero GPL license.
 
 Usage:
 
@@ -149,11 +149,11 @@ class Shufti(ShuftiWindow):
             
     def keyPressEvent(self, event):
         
-        if event.key() == QtCore.Qt.Key_V:
+        if event.key() == QtCore.Qt.Key_V or event.key() == QtCore.Qt.Key_F11:
             self.toggleFullscreen()
-        elif event.key() == QtCore.Qt.Key_Equal:
+        elif event.key() == QtCore.Qt.Key_Equal or event.key() == QtCore.Qt.Key_E:
             self.zoomIn()
-        elif event.key() == QtCore.Qt.Key_Minus:
+        elif event.key() == QtCore.Qt.Key_Minus or event.key() == QtCore.Qt.Key_D:
             self.zoomOut()
         elif event.key() == QtCore.Qt.Key_1:
             self.zoom = 1
