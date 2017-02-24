@@ -48,7 +48,7 @@ class ShuftiWindow(QMainWindow):
         winposx = self.pos().x()
         winposy = self.pos().y()
         if self.inshuft == 0:
-            self.query.exec_("insert into shuftery values('" + str(self.key) + 
+            self.query.exec_("insert into shuftery values('{}".format(self.dbkey) + 
             "', " + str(self.zoom) + ", " + str(winposx) + ", " + str(winposy) + 
             ", " + str(winsizex) + ", " + str(winsizey) + ", " + str(hscroll) + 
             ", " + str(vscroll) + ", " + str(self.rotate) + ")")
@@ -58,7 +58,7 @@ class ShuftiWindow(QMainWindow):
             ", winposx=" + str(winposx) + ", winposy=" + str(winposy) + 
             ", winsizex=" + str(winsizex) + ", winsizey=" + str(winsizey) + 
             ", hscroll=" + str(hscroll) + ", vscroll=" + str(vscroll) + 
-            ", rotate=" + str(self.rotate) + " where filename='" + str(self.key) + "'")
+            ", rotate=" + str(self.rotate) + " where filename='{}'".format(self.dbkey))
             self.db.close()
 
 class Shufti(ShuftiWindow):
@@ -66,6 +66,9 @@ class Shufti(ShuftiWindow):
     def __init__(self):
         super().__init__()
         self.key = sys.argv[1]
+        self.dbkey = self.key.replace("\"", "\"\"")
+        self.dbkey = self.dbkey.replace("\'", "\'\'")
+        self.dbkey = self.dbkey.replace("\\", "\\\\")
         try:
             open(self.key, 'r')
         except IOError:
@@ -87,7 +90,7 @@ class Shufti(ShuftiWindow):
             self.db.setDatabaseName(self.dbfile)
             self.db.open()
             self.query = QtSql.QSqlQuery()
-            self.query.exec_("SELECT * FROM shuftery WHERE filename='" + str(self.key) + "'")
+            self.query.exec_("SELECT * FROM shuftery WHERE filename='{}'".format(self.dbkey))
             # If the image is found in shufti.db, load the previous view settings
             while self.query.next() and self.inshuft == 0:
                 self.zoom = self.query.value(1)
