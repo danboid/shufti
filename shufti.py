@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 '''
-shufti - The persistent image viewer
+shufti 1.0 - The persistent image viewer
 
 By Dan MacDonald, 2017.
 
@@ -104,7 +104,7 @@ class Shufti(ShuftiWindow):
                 self.inshuft = 1
             # Set common window attributes
             self.path, self.title = os.path.split(self.key)
-            self.setWindowTitle(str(self.title) + " - shufti")
+            self.setWindowTitle(str(self.title) + " - shufti 1.0")
             self.img = QPixmap(self.key)
             self.scene = QGraphicsScene()
             self.scene.addPixmap(self.img)
