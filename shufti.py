@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 '''
-shufti 1.0 - The persistent image viewer
+shufti 1.1git - The persistent image viewer
 
 By Dan MacDonald, 2017.
 
@@ -16,7 +16,7 @@ You may want to associate shufti with image files in your file manager rather th
 use it from the terminal.
 '''
 
-import os, sys
+import os, sys, glob
 from PyQt5 import QtCore, QtSql
 from PyQt5.QtGui import QPixmap, QTransform
 from os.path import expanduser, dirname
@@ -69,15 +69,15 @@ class Shufti(ShuftiWindow):
         self.dbkey = self.key.replace("\"", "\"\"")
         self.dbkey = self.dbkey.replace("\'", "\'\'")
         self.dbkey = self.dbkey.replace("\\", "\\\\")
+        self.formats = ('.png', '.jpg', '.jpeg', '.gif', '.bmp', '.pbm', '.pgm', '.ppm',
+         '.xbm', '.xpm', '.dds', '.icns', '.jp2', '.mng', '.tga', '.tiff', '.wbmp', '.webp')
         try:
             open(self.key, 'r')
         except IOError:
             print('There was an error opening the file')
             sys.exit(1)
         
-        if self.key.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp',
-         '.pbm', '.pgm', '.ppm', '.xbm', '.xpm', '.dds', '.icns', '.jp2', 
-         '.mng', '.tga', '.tiff', '.wbmp', '.webp')):
+        if self.key.lower().endswith(self.formats):
             # If inshuft = 0, the image is not in shufti's image database
             self.inshuft = 0
             self.rotval = 0
@@ -104,7 +104,7 @@ class Shufti(ShuftiWindow):
                 self.inshuft = 1
             # Set common window attributes
             self.path, self.title = os.path.split(self.key)
-            self.setWindowTitle(str(self.title) + " - shufti 1.0")
+            self.setWindowTitle(str(self.title) + " - shufti 1.1git")
             self.img = QPixmap(self.key)
             self.scene = QGraphicsScene()
             self.scene.addPixmap(self.img)
@@ -112,6 +112,16 @@ class Shufti(ShuftiWindow):
             self.view.setDragMode(QGraphicsView.ScrollHandDrag)
             self.view.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
             self.view.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+            # Create array of images in current image dir
+            self.imgfiles = []
+            for filename in glob.glob(str(self.path) + '/*'):
+                base, ext = os.path.splitext(filename)
+                if ext.lower() in self.formats:
+                    self.imgfiles.append(filename)
+            # Find location of current image in imgfiles array
+            self.dirpos = 0
+            while self.dirpos < len(self.imgfiles) and self.imgfiles[self.dirpos] != self.key:
+                self.dirpos += 1
             # If we have no inshuftery, we use the defaults
             if self.inshuft == 0:
                 self.newImage()
