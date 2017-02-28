@@ -41,24 +41,12 @@ class ShuftiWindow(QMainWindow):
         
     def closeEvent(self, event):
         
-        winsizex = self.geometry().width()
-        winsizey = self.geometry().height()
-        vscroll = self.view.verticalScrollBar().value()
-        hscroll = self.view.horizontalScrollBar().value()
-        winposx = self.pos().x()
-        winposy = self.pos().y()
+        shufti.winState()
         if self.inshuft == 0:
-            self.query.exec_("insert into shuftery values('{}".format(self.dbkey) + 
-            "', " + str(self.zoom) + ", " + str(winposx) + ", " + str(winposy) + 
-            ", " + str(winsizex) + ", " + str(winsizey) + ", " + str(hscroll) + 
-            ", " + str(vscroll) + ", " + str(self.rotate) + ")")
+            shufti.dbInsert()
             self.db.close()
         else:
-            self.query.exec_("update shuftery set zoom=" + str(self.zoom) + 
-            ", winposx=" + str(winposx) + ", winposy=" + str(winposy) + 
-            ", winsizex=" + str(winsizex) + ", winsizey=" + str(winsizey) + 
-            ", hscroll=" + str(hscroll) + ", vscroll=" + str(vscroll) + 
-            ", rotate=" + str(self.rotate) + " where filename='{}'".format(self.dbkey))
+            shufti.dbUpdate()
             self.db.close()
 
 class Shufti(ShuftiWindow):
@@ -225,6 +213,31 @@ class Shufti(ShuftiWindow):
     def updateView(self):
         
         self.view.setTransform(QTransform().scale(self.zoom, self.zoom).rotate(self.rotate))
+        
+    def winState(self):
+        
+        self.winsizex = self.geometry().width()
+        self.winsizey = self.geometry().height()
+        self.vscroll = self.view.verticalScrollBar().value()
+        self.hscroll = self.view.horizontalScrollBar().value()
+        self.winposx = self.pos().x()
+        self.winposy = self.pos().y()
+        
+    def dbInsert(self):
+        
+        self.query.exec_("insert into shuftery values('{}".format(self.dbkey) + 
+        "', " + str(self.zoom) + ", " + str(self.winposx) + ", " + str(self.winposy) + 
+        ", " + str(self.winsizex) + ", " + str(self.winsizey) + ", " + str(self.hscroll) + 
+        ", " + str(self.vscroll) + ", " + str(self.rotate) + ")")
+        
+    def dbUpdate(self):
+        
+        self.query.exec_("update shuftery set zoom=" + str(self.zoom) + 
+        ", winposx=" + str(self.winposx) + ", winposy=" + str(self.winposy) + 
+        ", winsizex=" + str(self.winsizex) + ", winsizey=" + str(self.winsizey) + 
+        ", hscroll=" + str(self.hscroll) + ", vscroll=" + str(self.vscroll) + 
+        ", rotate=" + str(self.rotate) + " where filename='{}'".format(self.dbkey))
+        
         
 if __name__ == '__main__':
     
