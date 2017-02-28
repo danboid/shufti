@@ -45,6 +45,10 @@ You will most likely want to right-click on your image files in your file manage
 
 **s** spins the image 90 degrees clockwise.
 
+**BACKSPACE** View previous image in directory.
+
+**SPACE** View next image within directory.
+
 **f** fits the image into the window.
 
 **1** resets the zoom.
