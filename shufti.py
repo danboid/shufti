@@ -161,9 +161,9 @@ class Shufti(ShuftiWindow):
                 self.zoom = (self.view.transform().m11()) * -1
             else:
                 self.zoom = self.view.transform().m12()
-        elif event.key() == QtCore.Qt.Key_Space:
+        elif event.key() == QtCore.Qt.Key_Space and len(self.imgfiles) > 1:
             self.dirBrowse(1)
-        elif event.key() == QtCore.Qt.Key_Backspace:
+        elif event.key() == QtCore.Qt.Key_Backspace and len(self.imgfiles) > 1:
             self.dirBrowse(-1)
             
     def mouseDoubleClickEvent(self, event):
