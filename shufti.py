@@ -54,9 +54,7 @@ class Shufti(ShuftiWindow):
     def __init__(self):
         super().__init__()
         self.key = sys.argv[1]
-        self.dbkey = self.key.replace("\"", "\"\"")
-        self.dbkey = self.dbkey.replace("\'", "\'\'")
-        self.dbkey = self.dbkey.replace("\\", "\\\\")
+        self.dbSanitise()
         self.formats = ('.png', '.jpg', '.jpeg', '.gif', '.bmp', '.pbm', '.pgm', '.ppm',
          '.xbm', '.xpm', '.dds', '.icns', '.jp2', '.mng', '.tga', '.tiff', '.wbmp', '.webp')
         try:
@@ -162,6 +160,10 @@ class Shufti(ShuftiWindow):
                 self.zoom = (self.view.transform().m11()) * -1
             else:
                 self.zoom = self.view.transform().m12()
+        elif event.key() == QtCore.Qt.Key_Space:
+            self.dirBrowse(1)
+        elif event.key() == QtCore.Qt.Key_Backspace:
+            self.dirBrowse(-1)
             
     def mouseDoubleClickEvent(self, event):
         
@@ -241,17 +243,38 @@ class Shufti(ShuftiWindow):
             self.vscroll = self.query.value(7)
             self.rotate = self.query.value(8)
             self.inshuft = 1
+    
+    def dbSanitise(self):
+        
+        self.dbkey = self.key.replace("\"", "\"\"")
+        self.dbkey = self.dbkey.replace("\'", "\'\'")
+        self.dbkey = self.dbkey.replace("\\", "\\\\")
         
     def dirBrowse(self, direc):
         
         self.dirpos += direc
+        if self.dirpos > (len(self.imgfiles) - 1):
+            self.dirpos = 0
+        elif self.dirpos < 0:
+            self.dirpos = (len(self.imgfiles) - 1)
         shufti.winState()
         if self.inshuft == 0:
             shufti.dbInsert()
         else:
             shufti.dbUpdate()
+        self.key = self.imgfiles[self.dirpos]
+        self.dbSanitise()
+        self.path, self.title = os.path.split(self.key)
+        self.setWindowTitle(str(self.title) + " - shufti 1.1git")
+        self.inshuft = 0
+        self.dbSearch(self.key)
         self.scene.clear()
-        self.scene.addPixmap(self.imgfiles[self.dirpos])
+        self.img = QPixmap(self.key)
+        self.scene.addPixmap(self.img)
+        if self.inshuft == 0:
+            self.newImage()
+        else:
+            self.oldImage()
         
         
 if __name__ == '__main__':
