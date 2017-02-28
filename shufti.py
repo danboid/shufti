@@ -78,18 +78,7 @@ class Shufti(ShuftiWindow):
             self.db.setDatabaseName(self.dbfile)
             self.db.open()
             self.query = QtSql.QSqlQuery()
-            self.query.exec_("SELECT * FROM shuftery WHERE filename='{}'".format(self.dbkey))
-            # If the image is found in shufti.db, load the previous view settings
-            while self.query.next() and self.inshuft == 0:
-                self.zoom = self.query.value(1)
-                self.winposx = self.query.value(2)
-                self.winposy = self.query.value(3)
-                self.winsizex = self.query.value(4)
-                self.winsizey = self.query.value(5)
-                self.hscroll = self.query.value(6)
-                self.vscroll = self.query.value(7)
-                self.rotate = self.query.value(8)
-                self.inshuft = 1
+            self.dbSearch(self.key)
             # Set common window attributes
             self.path, self.title = os.path.split(self.key)
             self.setWindowTitle(str(self.title) + " - shufti 1.1git")
@@ -237,6 +226,32 @@ class Shufti(ShuftiWindow):
         ", winsizex=" + str(self.winsizex) + ", winsizey=" + str(self.winsizey) + 
         ", hscroll=" + str(self.hscroll) + ", vscroll=" + str(self.vscroll) + 
         ", rotate=" + str(self.rotate) + " where filename='{}'".format(self.dbkey))
+        
+    def dbSearch(self, field):
+        
+        self.query.exec_("SELECT * FROM shuftery WHERE filename='{}'".format(field))
+        # If the image is found in shufti.db, load the previous view settings
+        while self.query.next() and self.inshuft == 0:
+            self.zoom = self.query.value(1)
+            self.winposx = self.query.value(2)
+            self.winposy = self.query.value(3)
+            self.winsizex = self.query.value(4)
+            self.winsizey = self.query.value(5)
+            self.hscroll = self.query.value(6)
+            self.vscroll = self.query.value(7)
+            self.rotate = self.query.value(8)
+            self.inshuft = 1
+        
+    def dirBrowse(self, direc):
+        
+        self.dirpos += direc
+        shufti.winState()
+        if self.inshuft == 0:
+            shufti.dbInsert()
+        else:
+            shufti.dbUpdate()
+        self.scene.clear()
+        self.scene.addPixmap(self.imgfiles[self.dirpos])
         
         
 if __name__ == '__main__':
