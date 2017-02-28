@@ -76,7 +76,7 @@ class Shufti(ShuftiWindow):
             self.db.setDatabaseName(self.dbfile)
             self.db.open()
             self.query = QtSql.QSqlQuery()
-            self.dbSearch(self.key)
+            self.dbSearch(self.dbkey)
             # Set common window attributes
             self.path, self.title = os.path.split(self.key)
             self.setWindowTitle(str(self.title) + " - shufti 1.1git")
@@ -122,6 +122,7 @@ class Shufti(ShuftiWindow):
             self.rotval = 2
         elif self.rotate == -270:
             self.rotval = 3
+        self.resize(self.img.size())
         self.updateView()
         self.show()
         self.setGeometry(self.winposx, self.winposy, self.winsizex, self.winsizey)
@@ -267,8 +268,9 @@ class Shufti(ShuftiWindow):
         self.path, self.title = os.path.split(self.key)
         self.setWindowTitle(str(self.title) + " - shufti 1.1git")
         self.inshuft = 0
-        self.dbSearch(self.key)
+        self.dbSearch(self.dbkey)
         self.scene.clear()
+        self.view.resetTransform()
         self.img = QPixmap(self.key)
         self.scene.addPixmap(self.img)
         if self.inshuft == 0:
