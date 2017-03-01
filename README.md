@@ -6,7 +6,7 @@
 
 **shufti** is a lightweight, PyQt5-based image viewer. It automatically saves and restores the zoom level, rotation, window size, desktop location and the scrollbar positions (ie viewing area) for every image it loads, on a per-image/location basis. It supports viewing .jpg, .png, .gif and .bmp files, amongst others.
 
-shufti has no GUI (as in icons or menus) and that is by design. It aims to be efficient and lightweight - it will never edit images, play videos or do you a brew. Its complete and uncompressed source code is little more than 7KB.
+shufti has no GUI to consume precious image viewing space. It aims to be efficient and lightweight - it will never edit images, play videos or do you a brew. Its complete and uncompressed source code is approx. 11KB.
 
 Due to its nature, shufti will only be of use if you maintain the same display configuration ie screen / desktop config and resolution(s).
 
@@ -31,7 +31,7 @@ Run:
  $ shufti /full/path/to/image/file
 ```
 
-To view the file. The view settings are saved when you close the window and restored next time you open that file in that directory.
+To view the file. The view settings are saved when you close a window or choose to view the next/previous image. These settings are restored next time you open the file.
 
 You will most likely want to right-click on your image files in your file manager and use the **Open with command** option which is usually under the **Open with** tab under the right-click **Properties** menu of the image file, when selected under your desktop's file manager.
 
@@ -45,10 +45,12 @@ You will most likely want to right-click on your image files in your file manage
 
 **s** spins the image 90 degrees clockwise.
 
-**BACKSPACE** View previous image in directory.
+**BACKSPACE** view previous image in directory.
 
-**SPACE** View next image within directory.
+**SPACE** view next image within directory.
 
 **f** fits the image into the window.
+
+**right click** show context menu.
 
 **1** resets the zoom.
