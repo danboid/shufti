@@ -17,10 +17,11 @@ use it from the terminal.
 '''
 
 import os, sys, glob
+from functools import partial
 from PyQt5 import QtCore, QtSql
 from PyQt5.QtGui import QPixmap, QTransform
 from os.path import expanduser, dirname
-from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsScene, QGraphicsView
+from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsScene, QGraphicsView, QMenu
 
 class ShuftiView(QGraphicsView):
     
@@ -31,6 +32,21 @@ class ShuftiView(QGraphicsView):
             shufti.zoomIn()
         elif moose < 0:
             shufti.zoomOut()
+            
+    def contextMenuEvent(self, event):
+        
+        menu = QMenu()
+        menu.addAction('Zoom in                 +, e', shufti.zoomIn)
+        menu.addAction('Zoom out               -, d', shufti.zoomOut)
+        menu.addAction('Toggle fullscreen   F11, v', shufti.toggleFullscreen)
+        menu.addAction('Rotate CCW           r', partial(shufti.rotateImg, 1))
+        menu.addAction('Spin CW                 s', partial(shufti.rotateImg, -1))
+        menu.addAction('Next image            SPACE', partial(shufti.dirBrowse, 1))
+        menu.addAction('Previous image      BACKSPACE', partial(shufti.dirBrowse, -1))
+        menu.addAction('Fit image                f', shufti.fitView)
+        menu.addAction('Reset zoom            1', shufti.zoomReset)
+        menu.exec_(event.globalPos())
+        
 
 class ShuftiWindow(QMainWindow):
     
@@ -145,25 +161,16 @@ class Shufti(ShuftiWindow):
         elif event.key() == QtCore.Qt.Key_Minus or event.key() == QtCore.Qt.Key_D:
             self.zoomOut()
         elif event.key() == QtCore.Qt.Key_1:
-            self.zoom = 1
-            self.updateView()
+            self.zoomReset()
         elif event.key() == QtCore.Qt.Key_S:
             self.rotateImg(-1)
         elif event.key() == QtCore.Qt.Key_R:
             self.rotateImg(1)
         elif event.key() == QtCore.Qt.Key_F:
-            self.view.fitInView(self.scene.sceneRect(), QtCore.Qt.KeepAspectRatio)
-            if self.rotate == 0:
-                self.zoom = self.view.transform().m11()
-            elif self.rotate == -90:
-                self.zoom = (self.view.transform().m12()) * -1
-            elif self.rotate == -180:
-                self.zoom = (self.view.transform().m11()) * -1
-            else:
-                self.zoom = self.view.transform().m12()
-        elif event.key() == QtCore.Qt.Key_Space and len(self.imgfiles) > 1:
+            self.fitView()
+        elif event.key() == QtCore.Qt.Key_Space:
             self.dirBrowse(1)
-        elif event.key() == QtCore.Qt.Key_Backspace and len(self.imgfiles) > 1:
+        elif event.key() == QtCore.Qt.Key_Backspace:
             self.dirBrowse(-1)
             
     def mouseDoubleClickEvent(self, event):
@@ -192,6 +199,11 @@ class Shufti(ShuftiWindow):
         self.zoom /= 1.05
         self.updateView()
         
+    def zoomReset(self):
+        
+        self.zoom = 1
+        self.updateView()
+        
     def rotateImg(self, clock):
         
         self.rotval += clock
@@ -201,6 +213,18 @@ class Shufti(ShuftiWindow):
             self.rotval = 3
         self.rotate = self.rotvals[self.rotval]
         self.updateView()
+        
+    def fitView(self):
+        
+        self.view.fitInView(self.scene.sceneRect(), QtCore.Qt.KeepAspectRatio)
+        if self.rotate == 0:
+            self.zoom = self.view.transform().m11()
+        elif self.rotate == -90:
+            self.zoom = (self.view.transform().m12()) * -1
+        elif self.rotate == -180:
+            self.zoom = (self.view.transform().m11()) * -1
+        else:
+            self.zoom = self.view.transform().m12()
         
     def updateView(self):
         
@@ -253,30 +277,31 @@ class Shufti(ShuftiWindow):
         
     def dirBrowse(self, direc):
         
-        self.dirpos += direc
-        if self.dirpos > (len(self.imgfiles) - 1):
-            self.dirpos = 0
-        elif self.dirpos < 0:
-            self.dirpos = (len(self.imgfiles) - 1)
-        shufti.winState()
-        if self.inshuft == 0:
-            shufti.dbInsert()
-        else:
-            shufti.dbUpdate()
-        self.key = self.imgfiles[self.dirpos]
-        self.dbSanitise()
-        self.path, self.title = os.path.split(self.key)
-        self.setWindowTitle(str(self.title) + " - shufti 1.1git")
-        self.inshuft = 0
-        self.dbSearch(self.dbkey)
-        self.scene.clear()
-        self.view.resetTransform()
-        self.img = QPixmap(self.key)
-        self.scene.addPixmap(self.img)
-        if self.inshuft == 0:
-            self.newImage()
-        else:
-            self.oldImage()
+        if len(self.imgfiles) > 1:
+            self.dirpos += direc
+            if self.dirpos > (len(self.imgfiles) - 1):
+                self.dirpos = 0
+            elif self.dirpos < 0:
+                self.dirpos = (len(self.imgfiles) - 1)
+            shufti.winState()
+            if self.inshuft == 0:
+                shufti.dbInsert()
+            else:
+                shufti.dbUpdate()
+            self.key = self.imgfiles[self.dirpos]
+            self.dbSanitise()
+            self.path, self.title = os.path.split(self.key)
+            self.setWindowTitle(str(self.title) + " - shufti 1.1git")
+            self.inshuft = 0
+            self.dbSearch(self.dbkey)
+            self.scene.clear()
+            self.view.resetTransform()
+            self.img = QPixmap(self.key)
+            self.scene.addPixmap(self.img)
+            if self.inshuft == 0:
+                self.newImage()
+            else:
+                self.oldImage()
         
         
 if __name__ == '__main__':
