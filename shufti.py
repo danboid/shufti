@@ -38,7 +38,9 @@ class ShuftiView(QGraphicsView):
         menu = QMenu()
         menu.addAction('Zoom in                 +, e', shufti.zoomIn)
         menu.addAction('Zoom out               -, d', shufti.zoomOut)
-        menu.addAction('Toggle fullscreen   F11, v', shufti.toggleFullscreen)
+        menu.addAction('Toggle fullscreen   F11', shufti.toggleFullscreen)
+        menu.addAction('Vertically max.      v', shufti.vertMax)
+        menu.addAction('HoriZontally max.  z', shufti.horizMax)
         menu.addAction('Rotate CCW           r', partial(shufti.rotateImg, 1))
         menu.addAction('Spin CW                 s', partial(shufti.rotateImg, -1))
         menu.addAction('Next image            SPACE', partial(shufti.dirBrowse, 1))
@@ -154,7 +156,7 @@ class Shufti(ShuftiWindow):
             
     def keyPressEvent(self, event):
         
-        if event.key() == QtCore.Qt.Key_V or event.key() == QtCore.Qt.Key_F11:
+        if event.key() == QtCore.Qt.Key_F11:
             self.toggleFullscreen()
         elif event.key() == QtCore.Qt.Key_Equal or event.key() == QtCore.Qt.Key_E:
             self.zoomIn()
@@ -172,6 +174,10 @@ class Shufti(ShuftiWindow):
             self.dirBrowse(1)
         elif event.key() == QtCore.Qt.Key_Backspace:
             self.dirBrowse(-1)
+        elif event.key() == QtCore.Qt.Key_V:
+            self.vertMax()
+        elif event.key() == QtCore.Qt.Key_Z:
+            self.horizMax()
             
     def mouseDoubleClickEvent(self, event):
         
@@ -302,6 +308,22 @@ class Shufti(ShuftiWindow):
                 self.newImage()
             else:
                 self.oldImage()
+                
+    def vertMax(self):
+        
+        self.screen_res = app.desktop().screenGeometry()
+        self.screenh = self.screen_res.height()
+        self.winsizex = self.geometry().width()
+        self.winposx = self.pos().x()
+        self.setGeometry(self.winposx, 0, self.winsizex, self.screenh)
+        
+    def horizMax(self):
+        
+        self.screen_res = app.desktop().screenGeometry()
+        self.screenw = self.screen_res.width()
+        self.winsizey = self.geometry().height()
+        self.winposy = self.pos().y()
+        self.setGeometry(0, self.winposy, self.screenw, self.winsizey)
         
         
 if __name__ == '__main__':
