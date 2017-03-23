@@ -311,7 +311,7 @@ class Shufti(ShuftiWindow):
                 
     def vertMax(self):
         
-        self.screen_res = app.desktop().screenGeometry()
+        self.screen_res = app.desktop().availableGeometry(shufti)
         self.screenh = self.screen_res.height()
         self.winsizex = self.geometry().width()
         self.winposx = self.pos().x()
@@ -319,7 +319,7 @@ class Shufti(ShuftiWindow):
         
     def horizMax(self):
         
-        self.screen_res = app.desktop().screenGeometry()
+        self.screen_res = app.desktop().availableGeometry(shufti)
         self.screenw = self.screen_res.width()
         self.winsizey = self.geometry().height()
         self.winposy = self.pos().y()
