@@ -4,9 +4,9 @@
 
 ### By Dan MacDonald, 2017
 
-**shufti** is a lightweight, PyQt5-based image viewer. It automatically saves and restores the zoom level, rotation, window size, desktop location and the scrollbar positions (ie viewing area) for every image it loads, on a per-image/location basis. It supports viewing .jpg, .png, .gif and .bmp files, amongst others.
+**shufti** is a lightweight, PyQt-based image viewer. It automatically saves and restores the zoom level, rotation, window size, desktop location and the scrollbar positions (ie viewing area) for every image it loads, on a per-image/location basis. It supports viewing .jpg, .png, .gif, .tif and .bmp files, amongst others.
 
-shufti has no GUI to consume precious image viewing space. It aims to be efficient and lightweight - it will never edit images, play videos or do you a brew. Its complete and uncompressed source code is approx. 11KB.
+shufti has no GUI to consume precious image viewing space. It aims to be efficient and lightweight - it will never edit images, play videos or do you a brew. Its complete, uncompressed source code is approx. 12KB.
 
 shufti is free and open source software licensed under the latest GNU Affero GPL license and should run on any platform that can run PyQt - that includes GNU/Linux, *BSD, macOS and Windows.
 
@@ -29,9 +29,9 @@ Run:
  $ shufti /full/path/to/image/file
 ```
 
-To view the file. The view settings are saved when you close a window or choose to view the next/previous image. These settings are restored next time you open the file.
+To view the file. The view settings are saved when you close a window or choose to view the next/previous image. These settings are restored next time you open or browse to the file.
 
-You will most likely want to right-click on your image files in your file manager and use the **Open with command** option which is usually under the **Open with** tab under the right-click **Properties** menu of the image file, when selected under your desktop's file manager.
+You will need to right-click on your image files in your file manager and use the **Open with command** option (which is usually under the **Open with** tab under the right-click **Properties** menu of the image file), when selected under your desktop's file manager to set shufti as the command to use to open image files.
 
 ## CONTROLS
 
@@ -56,6 +56,8 @@ You will most likely want to right-click on your image files in your file manage
 **right click** show context menu.
 
 **1** resets the zoom.
+
+Note that the easiest way to resize windows under most Linux/BSD desktops is to hold the ALT key then right-click and drag near the window edge you wish to resize. This saves the user from having to precisely position the cursor over a window edge to resize it.
 
 ## LIMITATIONS
 
