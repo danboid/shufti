@@ -6,9 +6,9 @@
 
 **shufti** is a lightweight, PyQt-based image viewer. It automatically saves and restores the zoom level, rotation, window size, desktop location and the scrollbar positions (ie viewing area) for every image it loads, on a per-image/location basis. It supports viewing .jpg, .png, .gif, .tif and .bmp files, amongst others.
 
-shufti has no GUI to consume precious image viewing space. It aims to be efficient and lightweight - it will never edit images, play videos or do you a brew. Its complete, uncompressed source code is approx. 12KB.
+**shufti** has no GUI to consume precious image viewing space. It aims to be efficient and lightweight hence it will never edit images, play videos or do you a brew.
 
-shufti is free and open source software licensed under the latest GNU Affero GPL license and should run on any platform that can run PyQt - that includes GNU/Linux, *BSD, macOS and Windows.
+**shufti** is free and open source software licensed under the latest GNU Affero GPL license and should run on any platform that can run PyQt - that includes GNU/Linux, *BSD, macOS and Windows.
 
 ## INSTALLATION
 
@@ -66,3 +66,11 @@ Due to its nature, shufti will only be of use if you maintain the same display c
 Whilst shufti allows you to view images fullscreen, it is intended for the viewing of images in non-fullscreen windows. If you use its directory browsing ability, you should exit fullscreen mode before moving to the next image.
 
 shufti isn't able to dynamically resize its window when browsing images within a directory if its window has been maximised vertically or horizontally by the window manager. This is the case for both KDE (Kwin) and MATE (Marco) at least. If you wish to maximise a window horizontally or vertically, do it using shufti's maximise features or do it manually instead of using your window manager / desktop to do it.
+
+## DONATIONS
+
+If you find shufti useful, please make a donation via PayPal. 
+
+Thanks!
+
+**allcoms at gmail dot com**
