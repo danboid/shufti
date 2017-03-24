@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 '''
-shufti 1.1git - The persistent image viewer
+shufti 2.0 - The persistent image viewer
 
 By Dan MacDonald, 2017.
 
@@ -21,7 +21,7 @@ from functools import partial
 from PyQt5 import QtCore, QtSql
 from PyQt5.QtGui import QPixmap, QTransform
 from os.path import expanduser, dirname
-from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsScene, QGraphicsView, QMenu
+from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsScene, QGraphicsView, QMenu, QLabel
 
 class ShuftiView(QGraphicsView):
     
@@ -47,6 +47,7 @@ class ShuftiView(QGraphicsView):
         menu.addAction('Previous image      BACKSPACE', partial(shufti.dirBrowse, -1))
         menu.addAction('Fit image                f', shufti.fitView)
         menu.addAction('Reset zoom            1', shufti.zoomReset)
+        menu.addAction('About shufti', shufti.about)
         menu.exec_(event.globalPos())
         
 
@@ -66,6 +67,24 @@ class ShuftiWindow(QMainWindow):
         else:
             shufti.dbUpdate()
             self.db.close()
+            
+class AboutShufti(QLabel):
+    
+    def __init__(self):
+        
+        QLabel.__init__(self,"shufti 2.0\n\nBy Dan MacDonald, 2017\n\nIf you find shufti useful, please make a donation via PayPal\n\nallcoms@gmail.com\n\nThanks!")
+        self.setAlignment(QtCore.Qt.AlignCenter)
+
+    def initUI(self):               
+        
+        self.center()
+        
+    def center(self):
+        
+        qr = self.frameGeometry()
+        cp = app.desktop().availableGeometry().centre()
+        qr.moveCenter(cp)
+        self.move(qr.topLeft())
 
 class Shufti(ShuftiWindow):
     
@@ -97,7 +116,7 @@ class Shufti(ShuftiWindow):
             self.dbSearch(self.dbkey)
             # Set common window attributes
             self.path, self.title = os.path.split(self.key)
-            self.setWindowTitle(str(self.title) + " - shufti 1.1git")
+            self.setWindowTitle(str(self.title) + " - shufti")
             self.img = QPixmap(self.key)
             self.scene = QGraphicsScene()
             self.scene.addPixmap(self.img)
@@ -297,7 +316,7 @@ class Shufti(ShuftiWindow):
             self.key = self.imgfiles[self.dirpos]
             self.dbSanitise()
             self.path, self.title = os.path.split(self.key)
-            self.setWindowTitle(str(self.title) + " - shufti 1.1git")
+            self.setWindowTitle(str(self.title) + " - shufti")
             self.inshuft = 0
             self.dbSearch(self.dbkey)
             self.scene.clear()
@@ -324,6 +343,13 @@ class Shufti(ShuftiWindow):
         self.winsizey = self.geometry().height()
         self.winposy = self.pos().y()
         self.setGeometry(0, self.winposy, self.screenw, self.winsizey)
+        
+    def about(self):
+        
+        self.pop = AboutShufti()
+        self.pop.resize(450, 200)
+        self.pop.setWindowTitle("About shufti")
+        self.pop.show()
         
         
 if __name__ == '__main__':
