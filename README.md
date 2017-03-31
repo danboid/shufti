@@ -31,7 +31,7 @@ Windows (64-bit, Vista or later only) users can download and run the latest shuf
 
 ## USAGE
 
-After installing shufti, and only once (before your first use) you need to right-click on an image files in your file manager (eg Windows Explorer, Dolphin or Thunar) and use the **Open with command** option (which is usually under the **Open with** tab under the right-click **Properties** menu of the image file), when selected under your desktop's file manager to set shufti as the command/program to use to open image files. You have to do this for every different type of image file you wish to open with shufti. After doing this once for each image type you use, you will only need to double-click on an image to open it with shufti.
+After installing shufti, and only once (before your first use) you need to right-click on an image file in your file manager (eg right click on a .jpg file under Windows Explorer, Dolphin, Thunar or whatever) and use the **Open with command** option (which is usually under the **Open with** tab under the right-click **Properties** menu of the image file), when selected under your desktop's file manager to set shufti as the command/program to use to open image files. You have to do this for every different type of image file you wish to open with shufti. After doing this once for each image type you use, you will only need to double-click on an image to open it with shufti.
 
 It is also possible to run shufti from the command line. This is the only way to use it under macOS currently. You'd run:
 
