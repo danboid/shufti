@@ -6,7 +6,7 @@
 
 **shufti** is a lightweight, PyQt-based image viewer. It automatically saves and restores the zoom level, rotation, window size, desktop location and the scrollbar positions (ie viewing area) for every image it loads, on a per-image/location basis. It supports viewing .jpg, .png, .gif, .tif and .bmp files, amongst others.
 
-**shufti** has no GUI to consume precious image viewing space. It aims to be efficient and lightweight hence it will never edit images, play videos or do you a brew.
+**shufti** has no GUI to consume precious image viewing space. It aims to be efficient and lightweight hence it will never edit images, play videos or do you a brew. Every images view settings are saved to a local SQlite database on your computer - shufti never modifies any image files.
 
 **shufti** is free and open source software licensed under the latest GNU Affero GPL license and should run on any platform that can run PyQt - that includes GNU/Linux, *BSD, macOS and Windows.
 
