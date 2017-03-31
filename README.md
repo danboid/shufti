@@ -12,6 +12,12 @@
 
 ## INSTALLATION
 
+On Arch based distros, install shufti with your fave AUR helper:
+
+```
+ $ packer -S shufti
+```
+
 On Debian and Ubuntu-based distros:
 
 ```
@@ -20,6 +26,8 @@ On Debian and Ubuntu-based distros:
  $ chmod +x ./shufti/shufti.py
  $ sudo cp ./shufti/shufti.py /usr/local/bin/shufti
 ```
+
+Windows (64-bit, Vista or later only) users can download and run the latest shufti .msi installer from the Releases section.
 
 ## USAGE
 
