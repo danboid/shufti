@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 '''
-shufti 2.0 - The persistent image viewer
+shufti 2.1git - The persistent image viewer
 
 By Dan MacDonald, 2017.
 
@@ -48,6 +48,7 @@ class ShuftiView(QGraphicsView):
         menu.addAction('Fit image                f', shufti.fitView)
         menu.addAction('Reset zoom            1', shufti.zoomReset)
         menu.addAction('About shufti', shufti.about)
+        menu.addAction('Quit                        q', shufti.close)
         menu.exec_(event.globalPos())
         
 
@@ -72,7 +73,7 @@ class AboutShufti(QLabel):
     
     def __init__(self):
         
-        QLabel.__init__(self,"shufti 2.0\n\nBy Dan MacDonald, 2017\n\nIf you find shufti useful, please make a donation via PayPal\n\nallcoms@gmail.com\n\nThanks!")
+        QLabel.__init__(self,"shufti 2.1git\n\nBy Dan MacDonald, 2017\n\nIf you find shufti useful, please make a donation via PayPal\n\nallcoms@gmail.com\n\nThanks!")
         self.setAlignment(QtCore.Qt.AlignCenter)
 
     def initUI(self):               
@@ -197,6 +198,8 @@ class Shufti(ShuftiWindow):
             self.vertMax()
         elif event.key() == QtCore.Qt.Key_Z:
             self.horizMax()
+        elif event.key() == QtCore.Qt.Key_Q:
+            self.close()
             
     def mouseDoubleClickEvent(self, event):
         
