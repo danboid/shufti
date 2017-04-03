@@ -69,6 +69,8 @@ The view settings are saved when you close a window or choose to view the next/p
 
 **1** resets the zoom.
 
+**q** quits.
+
 Note that the easiest way to resize windows under most Linux/BSD desktops is to hold the ALT key then right-click and drag near the window edge you wish to resize. This saves the user from having to precisely position the cursor over a window edge to resize it.
 
 ## LIMITATIONS
