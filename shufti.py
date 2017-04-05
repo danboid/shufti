@@ -91,7 +91,11 @@ class Shufti(ShuftiWindow):
     
     def __init__(self):
         super().__init__()
-        self.key = sys.argv[1]
+        try:
+            self.key = sys.argv[1]
+        except IndexError:
+            print('\nshufti 2.1git\n\nTo use shufti from the terminal, you must specify the full path to an image as a parameter.\n')
+            sys.exit(1)
         self.dbSanitise()
         self.formats = ('.png', '.jpg', '.jpeg', '.gif', '.bmp', '.pbm', '.pgm', '.ppm',
          '.xbm', '.xpm', '.dds', '.icns', '.jp2', '.mng', '.tga', '.tiff', '.wbmp', '.webp')
