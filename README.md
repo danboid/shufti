@@ -39,7 +39,13 @@ It is also possible to run shufti from the command line. This is the only way to
  $ python3 shufti.py /full/path/to/image/file
 ```
 
-To view the file. Note you must use the full path, like the file managers expect.
+or if you're running shufti from the Windows command prompt using the .exe, something like:
+
+```
+ > shufti c:\full\path\to\image\file
+```
+
+To view the file. Note you must use the full path, like the file managers require.
 
 The view settings are saved when you close a window or choose to view the next/previous image. These settings are restored next time you open or browse to the file.
 
