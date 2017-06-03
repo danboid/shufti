@@ -1,8 +1,8 @@
-#!/usr/bin/python3
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 '''
-shufti 2.1git - The persistent image viewer
+shufti 2.1 - The persistent image viewer
 
 By Dan MacDonald, 2017.
 
@@ -73,7 +73,7 @@ class AboutShufti(QLabel):
     
     def __init__(self):
         
-        QLabel.__init__(self,"shufti 2.1git\n\nBy Dan MacDonald, 2017\n\nIf you find shufti useful, please make a donation via PayPal\n\nallcoms@gmail.com\n\nThanks!")
+        QLabel.__init__(self,"shufti 2.1\n\nBy Dan MacDonald, 2017\n\nIf you find shufti useful, please make a donation via PayPal\n\nallcoms@gmail.com\n\nThanks!")
         self.setAlignment(QtCore.Qt.AlignCenter)
 
     def initUI(self):               
@@ -90,11 +90,11 @@ class AboutShufti(QLabel):
 class Shufti(ShuftiWindow):
     
     def __init__(self):
-        super().__init__()
+        super(Shufti,self).__init__()
         try:
             self.key = sys.argv[1]
         except IndexError:
-            print('\nshufti 2.1git\n\nTo use shufti from the terminal, you must specify the full path to an image as a parameter.\n')
+            print('\nshufti 2.1\n\nTo use shufti from the terminal, you must specify the full path to an image as a parameter.\n')
             sys.exit(1)
         self.dbSanitise()
         self.formats = ('.png', '.jpg', '.jpeg', '.gif', '.bmp', '.pbm', '.pgm', '.ppm',

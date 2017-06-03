@@ -36,7 +36,7 @@ After installing shufti, and only once (before your first use) you need to right
 It is also possible to run shufti from the command line. This is the only way to use it under macOS currently. You'd run:
 
 ```
- $ python3 shufti.py /full/path/to/image/file
+ $ python shufti.py /full/path/to/image/file
 ```
 
 or if you're running shufti from the Windows command prompt using the .exe, something like:
