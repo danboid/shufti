@@ -81,11 +81,13 @@ Note that the easiest way to resize windows under most Linux/BSD desktops is to 
 
 ## LIMITATIONS
 
-Due to its nature, shufti will only be of use if you maintain the same display configuration ie screen / desktop config and resolution(s).
+shufti requires that you maintain the same display configuration to restore image windows correctly.
 
-Whilst shufti allows you to view images fullscreen, it is intended for the viewing of images in non-fullscreen windows. If you use its directory browsing ability, you should exit fullscreen mode before moving to the next image.
+Whilst shufti allows you to view images fullscreen, it is really intended for the viewing of images in non-fullscreen windows. If you use its directory browsing ability, you should exit fullscreen mode before moving to the next image.
 
-shufti isn't able to dynamically resize its window when browsing images within a directory if its window has been maximised vertically or horizontally by the window manager. This is the case for both KDE (Kwin) and MATE (Marco) at least. If you wish to maximise a window horizontally or vertically, do it using shufti's maximise features or do it manually instead of using your window manager / desktop to do it.
+shufti isn't able to dynamically resize its window when browsing images within a directory if its window has been maximised vertically or horizontally by the window manager. This is the case for both KDE (Kwin) and MATE (Marco), at least. If you wish to maximise a window horizontally or vertically, do so using shufti's maximise features or do it manually instead of using your window manager or desktop environment to do it.
+
+If you find yourself presented with a blank window whilst browsing through a directory of previously unopened images after having used the zoom and pan features, click (or touch) and drag your pointer towards the lower right-hand corner of the shufti window. Previously unopened images can sometimes get drawn outside of the windows viewing area under these conditions.
 
 ## DONATIONS
 
