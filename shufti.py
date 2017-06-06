@@ -111,7 +111,7 @@ class Shufti(ShuftiWindow):
             self.rotvals = (0,-90,-180,-270)
             self.dbfile = expanduser("~/.config/shufti/shufti.db")
             self.dbdir = os.path.dirname(self.dbfile)
-            if not os.path.exists(self.dbdir) or not os.path.isfile(self.dbfile):
+            if not os.path.isfile(self.dbfile):
                 self.createDB()
             self.db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
             self.db.setDatabaseName(self.dbfile)
