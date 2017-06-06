@@ -1,8 +1,7 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
 '''
-shufti 2.1 - The persistent image viewer
+shufti 2.2 - The persistent image viewer
 
 By Dan MacDonald, 2017.
 
@@ -73,7 +72,7 @@ class AboutShufti(QLabel):
     
     def __init__(self):
         
-        QLabel.__init__(self,"shufti 2.1\n\nBy Dan MacDonald, 2017\n\nIf you find shufti useful, please make a donation via PayPal\n\nallcoms@gmail.com\n\nThanks!")
+        QLabel.__init__(self,"shufti 2.2\n\nBy Dan MacDonald, 2017\n\nIf you find shufti useful, please make a donation via PayPal\n\nallcoms@gmail.com\n\nThanks!")
         self.setAlignment(QtCore.Qt.AlignCenter)
 
     def initUI(self):               
@@ -94,7 +93,7 @@ class Shufti(ShuftiWindow):
         try:
             self.key = sys.argv[1]
         except IndexError:
-            print('\nshufti 2.1\n\nTo use shufti from the terminal, you must specify the full path to an image as a parameter.\n')
+            print('\nshufti 2.2\n\nTo use shufti from the terminal, you must specify the full path to an image as a parameter.\n')
             sys.exit(1)
         self.dbSanitise()
         self.formats = ('.png', '.jpg', '.jpeg', '.gif', '.bmp', '.pbm', '.pgm', '.ppm',
@@ -112,7 +111,7 @@ class Shufti(ShuftiWindow):
             self.rotvals = (0,-90,-180,-270)
             self.dbfile = expanduser("~/.config/shufti/shufti.db")
             self.dbdir = os.path.dirname(self.dbfile)
-            if not os.path.exists(self.dbdir):
+            if not os.path.exists(self.dbdir) or not os.path.isfile(self.dbfile):
                 self.createDB()
             self.db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
             self.db.setDatabaseName(self.dbfile)
@@ -211,7 +210,8 @@ class Shufti(ShuftiWindow):
             
     def createDB(self):
         
-        os.makedirs(self.dbdir)
+        if not os.path.exists(self.dbdir):
+            os.makedirs(self.dbdir)
         self.db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
         self.db.setDatabaseName(self.dbfile)
         self.query = QtSql.QSqlQuery()
@@ -273,7 +273,7 @@ class Shufti(ShuftiWindow):
         
     def dbInsert(self):
         
-        self.query.exec_("insert into shuftery values('{}".format(self.dbkey) + 
+        self.query.exec_("insert into shuftery values('%s" % self.dbkey + 
         "', " + str(self.zoom) + ", " + str(self.winposx) + ", " + str(self.winposy) + 
         ", " + str(self.winsizex) + ", " + str(self.winsizey) + ", " + str(self.hscroll) + 
         ", " + str(self.vscroll) + ", " + str(self.rotate) + ")")
@@ -284,11 +284,11 @@ class Shufti(ShuftiWindow):
         ", winposx=" + str(self.winposx) + ", winposy=" + str(self.winposy) + 
         ", winsizex=" + str(self.winsizex) + ", winsizey=" + str(self.winsizey) + 
         ", hscroll=" + str(self.hscroll) + ", vscroll=" + str(self.vscroll) + 
-        ", rotate=" + str(self.rotate) + " where filename='{}'".format(self.dbkey))
+        ", rotate=" + str(self.rotate) + " where filename='%s'" % self.dbkey)
         
     def dbSearch(self, field):
         
-        self.query.exec_("SELECT * FROM shuftery WHERE filename='{}'".format(field))
+        self.query.exec_("SELECT * FROM shuftery WHERE filename='%s'" % field)
         # If the image is found in shufti.db, load the previous view settings
         while self.query.next() and self.inshuft == 0:
             self.zoom = self.query.value(1)
