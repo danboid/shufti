@@ -154,6 +154,8 @@ class Shufti(ShuftiWindow):
         self.resize(self.img.size())
         self.view.resize(self.img.width() + 2, self.img.height() + 2)
         self.show()
+        self.view.verticalScrollBar().setValue(0)
+        self.view.horizontalScrollBar().setValue(0)
         
     def oldImage(self):
         
