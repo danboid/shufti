@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 '''
-shufti 2.2 - The persistent image viewer
+shufti 2.3 - The persistent image viewer
 
 By Dan MacDonald, 2017.
 
@@ -9,7 +9,7 @@ Licensed under the latest GNU Affero GPL license.
 
 Usage:
 
-shufti.py path/to/image
+shufti.py /path/to/image
 
 You may want to associate shufti with image files in your file manager rather than
 use it from the terminal.
@@ -50,7 +50,6 @@ class ShuftiView(QGraphicsView):
         menu.addAction('Quit                        q', shufti.close)
         menu.exec_(event.globalPos())
         
-
 class ShuftiWindow(QMainWindow):
     
     def resizeEvent(self,resizeEvent):
@@ -72,7 +71,7 @@ class AboutShufti(QLabel):
     
     def __init__(self):
         
-        QLabel.__init__(self,"shufti 2.2\n\nBy Dan MacDonald, 2017\n\nIf you find shufti useful, please make a donation via PayPal\n\nallcoms@gmail.com\n\nThanks!")
+        QLabel.__init__(self,"shufti 2.3\n\nBy Dan MacDonald, 2017\n\nIf you find shufti useful, please make a donation via PayPal\n\nallcoms@gmail.com\n\nThanks!")
         self.setAlignment(QtCore.Qt.AlignCenter)
 
     def initUI(self):               
@@ -93,7 +92,7 @@ class Shufti(ShuftiWindow):
         try:
             self.key = sys.argv[1]
         except IndexError:
-            print('\nshufti 2.2\n\nTo use shufti from the terminal, you must specify the full path to an image as a parameter.\n')
+            print('\nshufti 2.3\n\nTo use shufti from the terminal, you must specify the full path to an image as a parameter.\n')
             sys.exit(1)
         self.dbSanitise()
         self.formats = ('.png', '.jpg', '.jpeg', '.gif', '.bmp', '.pbm', '.pgm', '.ppm',
@@ -149,13 +148,20 @@ class Shufti(ShuftiWindow):
         
     def newImage(self):               
         
+        self.getScreenRes()
+        self.imgw = self.img.width()
+        self.imgh = self.img.height()
         self.zoom = 1
         self.rotate = 0
-        self.resize(self.img.size())
-        self.view.resize(self.img.width() + 2, self.img.height() + 2)
-        self.show()
-        self.view.verticalScrollBar().setValue(0)
-        self.view.horizontalScrollBar().setValue(0)
+        if self.imgw > self.screenw or self.imgh > self.screenh:
+            self.resize(self.screenw, self.screenh)
+            self.show()
+            self.resetScroll()
+            self.fitView()
+        else:
+            self.resize(self.imgw + 2, self.imgh + 2)
+            self.show()
+            self.resetScroll()
         
     def oldImage(self):
         
@@ -339,19 +345,28 @@ class Shufti(ShuftiWindow):
                 
     def vertMax(self):
         
-        self.screen_res = app.desktop().availableGeometry(shufti)
-        self.screenh = self.screen_res.height()
+        self.getScreenRes()
         self.winsizex = self.geometry().width()
         self.winposx = self.pos().x()
         self.setGeometry(self.winposx, 0, self.winsizex, self.screenh)
         
     def horizMax(self):
         
-        self.screen_res = app.desktop().availableGeometry(shufti)
-        self.screenw = self.screen_res.width()
+        self.getScreenRes()
         self.winsizey = self.geometry().height()
         self.winposy = self.pos().y()
         self.setGeometry(0, self.winposy, self.screenw, self.winsizey)
+        
+    def resetScroll(self):
+
+        self.view.verticalScrollBar().setValue(0)
+        self.view.horizontalScrollBar().setValue(0)
+        
+    def getScreenRes(self):
+
+        self.screen_res = app.desktop().availableGeometry()
+        self.screenw = self.screen_res.width()
+        self.screenh = self.screen_res.height()
         
     def about(self):
         
@@ -359,7 +374,6 @@ class Shufti(ShuftiWindow):
         self.pop.resize(450, 200)
         self.pop.setWindowTitle("About shufti")
         self.pop.show()
-        
         
 if __name__ == '__main__':
     
