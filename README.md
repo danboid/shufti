@@ -87,6 +87,8 @@ Whilst shufti allows you to view images fullscreen, it is really intended for th
 
 shufti isn't able to dynamically resize its window when browsing images within a directory if its window has been maximised vertically or horizontally by the window manager. This is the case for both KDE (Kwin) and MATE (Marco), at least. If you wish to maximise a window horizontally or vertically, do so using shufti's maximise features or do it manually instead of using your window manager or desktop environment to do it.
 
+If you use multiple displays and one is higher resolution than the others, shufti's horizontal and vertical maximise features only work properly when the largest display is configured as the primary desktop.
+
 ## DONATIONS
 
 If you find shufti useful, please make a donation via PayPal. 
