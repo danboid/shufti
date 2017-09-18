@@ -21,7 +21,7 @@ On Arch based distros, install shufti with your fave AUR helper:
 On Debian and Ubuntu-based distros:
 
 ```
- $ sudo apt install git python-pyqt5
+ $ sudo apt install git python-pyqt5 python-pyqt5.qtsql
  $ git clone https://github.com/danboid/shufti.git
  $ chmod +x ./shufti/shufti.py
  $ sudo cp ./shufti/shufti.py /usr/local/bin/shufti
