@@ -371,7 +371,7 @@ class Shufti(ShuftiWindow):
     def about(self):
         
         self.pop = AboutShufti()
-        self.pop.resize(450, 200)
+        self.pop.resize(555, 333)
         self.pop.setWindowTitle("About shufti")
         self.pop.show()
         
