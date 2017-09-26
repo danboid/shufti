@@ -2,7 +2,7 @@
 
 ## The persistent image viewer
 
-### By Dan MacDonald, 2017
+### By Dan MacDonald
 
 **shufti** is a lightweight, PyQt-based image viewer. It automatically saves and restores the zoom level, rotation, window size, desktop location and the scrollbar positions (ie viewing area) for every image it loads, on a per-image/location basis. It supports viewing .jpg, .png, .gif, .tif and .bmp files, amongst others.
 
@@ -12,13 +12,15 @@
 
 ## INSTALLATION
 
-On Arch based distros, install shufti with your fave AUR helper:
+Windows users can download an installer from the Releases section.
+
+Arch users can install shufti with an AUR helper like so:
 
 ```
  $ packer -S shufti
 ```
 
-On Debian and Ubuntu-based distros:
+For Debian and Ubuntu-based distros, run these commands to manually install shufti from Github:
 
 ```
  $ sudo apt install git python-pyqt5 python-pyqt5.qtsql
@@ -27,9 +29,7 @@ On Debian and Ubuntu-based distros:
  $ sudo cp ./shufti/shufti.py /usr/local/bin/shufti
 ```
 
-Windows (64-bit, Vista or later only) users can download and run the latest shufti .msi installer from the Releases section.
-
-FreeBSD and TrueOS users may have to modify shufti's hashbang before it can be run from your filemanager because FreeBSD doesn't create a default symlink from python to python2, which is still the default for FreeBSD at the time of writing, unlike most Linux distros. shufti requires PyQt5 but it can be run with python version 2 or 3. Instead of adjusting the hashbang, FreeBSD and TrueOS users can create the missing symlink like so:
+FreeBSD and TrueOS users may have to modify shufti's hashbang before it can be run from your file manager because FreeBSD doesn't create a default symlink from python to python2 (which is still the default for FreeBSD/TrueOS at the time of writing) unlike most Linux distros. shufti requires PyQt5 but it can be run with python 2 or 3. Instead of adjusting the hashbang, FreeBSD and TrueOS users can create the missing symlink like so:
 
 ```
  # ln -s /usr/local/bin/python2 /usr/local/bin/python
@@ -37,21 +37,21 @@ FreeBSD and TrueOS users may have to modify shufti's hashbang before it can be r
 
 ## USAGE
 
-After installing shufti, and only once (before your first use) you need to right-click on an image file in your file manager (eg right click on a .jpg file under Windows Explorer, Dolphin, Thunar or whatever) and use the **Open with command** option (which is usually under the **Open with** tab under the right-click **Properties** menu of the image file), when selected under your desktop's file manager to set shufti as the command/program to use to open image files. You have to do this for every different type of image file you wish to open with shufti. After doing this once for each image type you use, you will only need to double-click on an image to open it with shufti.
+After installing shufti you need to right-click on an image file in your file manager (eg right click on a .jpg file under Windows Explorer, Dolphin, Thunar or whatever) and use the **Open with command** option (which is usually under the **Open with** tab under the right-click **Properties** menu of the image file), when selected under your desktop's file manager to set shufti as the command to use to open image files. You have to do this for every different type of image file you wish to open with shufti. 
 
-It is also possible to run shufti from the command line. This is the only way to use it under macOS currently. You'd run:
+You can also run shufti from the command line. This is the only way to use it under macOS currently. Under a UNIX-like OS, you'd run:
 
 ```
- $ python shufti.py /full/path/to/image/file
+ $ shufti /full/path/to/image/file
 ```
 
-or if you're running shufti from the Windows command prompt using the .exe, something like:
+If you're running shufti from the Windows command prompt using the .exe, the command would look more like:
 
 ```
  > shufti c:\full\path\to\image\file
 ```
 
-To view the file. Note you must use the full path, like the file managers require.
+To view a file. Shufti requires you use the full path to the image you wish to open first.
 
 The view settings are saved when you close a window or choose to view the next/previous image. These settings are restored next time you open or browse to the file.
 
