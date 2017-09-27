@@ -14,6 +14,8 @@
 
 Windows users can download an installer from the Releases section.
 
+[HOWTO Install the shufti image viewer under Windows 10](https://www.youtube.com/watch?v=6Bny-1YGUHE) 
+
 Arch users can install shufti with an AUR helper like so:
 
 ```
