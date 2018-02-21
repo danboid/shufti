@@ -27,7 +27,6 @@ For Debian and Ubuntu-based distros, run these commands to manually install shuf
 ```
  $ sudo apt install git python-pyqt5 python-pyqt5.qtsql
  $ git clone https://github.com/danboid/shufti.git
- $ chmod +x ./shufti/shufti.py
  $ sudo cp ./shufti/shufti.py /usr/local/bin/shufti
 ```
 
