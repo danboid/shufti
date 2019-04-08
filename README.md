@@ -72,6 +72,8 @@ The view settings are saved when you close a window or choose to view the next/p
 
 **SPACE** view next image within directory.
 
+**p** play slideshow of images in directory.
+
 **z** horiZontally maximises the window.
 
 **v** vertically maximises the window.

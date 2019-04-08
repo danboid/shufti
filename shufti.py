@@ -23,17 +23,17 @@ from os.path import expanduser, dirname
 from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsScene, QGraphicsView, QMenu, QLabel
 
 class ShuftiView(QGraphicsView):
-    
+
     def wheelEvent(self, event):
-        
+
         moose = event.angleDelta().y()/120
         if moose > 0:
             shufti.zoomIn()
         elif moose < 0:
             shufti.zoomOut()
-            
+
     def contextMenuEvent(self, event):
-        
+
         menu = QMenu()
         menu.addAction('Zoom in                 +, e', shufti.zoomIn)
         menu.addAction('Zoom out               -, d', shufti.zoomOut)
@@ -46,19 +46,21 @@ class ShuftiView(QGraphicsView):
         menu.addAction('Previous image      BACKSPACE', partial(shufti.dirBrowse, -1))
         menu.addAction('Fit image                f', shufti.fitView)
         menu.addAction('Reset zoom            1', shufti.zoomReset)
+        menu.addAction('Play slideshow      p', shufti.toggleSlideshow)
         menu.addAction('About shufti', shufti.about)
         menu.addAction('Quit                        q', shufti.close)
         menu.exec_(event.globalPos())
-        
+
 class ShuftiWindow(QMainWindow):
-    
+
     def resizeEvent(self,resizeEvent):
         width = self.frameGeometry().width()
         height = self.frameGeometry().height()
         self.view.resize(width + 2, height + 2)
-        
+
     def closeEvent(self, event):
-        
+        if self.slideshowTimer.isActive():
+            self.slideshowTimer.stop()
         shufti.winState()
         if self.inshuft == 0:
             shufti.dbInsert()
@@ -66,27 +68,27 @@ class ShuftiWindow(QMainWindow):
         else:
             shufti.dbUpdate()
             self.db.close()
-            
+
 class AboutShufti(QLabel):
-    
+
     def __init__(self):
-        
+
         QLabel.__init__(self,"shufti 2.3\n\nBy Dan MacDonald, 2017\n\nIf you find shufti useful, please make a donation via PayPal\n\nallcoms@gmail.com\n\nThanks!")
         self.setAlignment(QtCore.Qt.AlignCenter)
 
-    def initUI(self):               
-        
+    def initUI(self):
+
         self.center()
-        
+
     def center(self):
-        
+
         qr = self.frameGeometry()
         cp = app.desktop().availableGeometry().centre()
         qr.moveCenter(cp)
         self.move(qr.topLeft())
 
 class Shufti(ShuftiWindow):
-    
+
     def __init__(self):
         super(Shufti,self).__init__()
         try:
@@ -102,7 +104,7 @@ class Shufti(ShuftiWindow):
         except IOError:
             print('There was an error opening the file')
             sys.exit(1)
-        
+
         if self.key.lower().endswith(self.formats):
             # If inshuft = 0, the image is not in shufti's image database
             self.inshuft = 0
@@ -145,9 +147,22 @@ class Shufti(ShuftiWindow):
         else:
             print("Unsupported file format")
             sys.exit(1)
-        
-    def newImage(self):               
-        
+
+        # Prepare automatic slideshow
+        self.slideTime = 4000
+        self.slideshowTimer = QtCore.QTimer(self)
+        self.slideshowTimer.timeout.connect(self.slideshowNext)
+        self.slideshowTimer.setSingleShot(False)
+
+        # TODO: Parse command line to enable fullscreen and/or slideshow at startup
+        #self.toggleFullscreen()
+        #self.toggleSlideshow()
+ 
+    def slideshowNext(self):
+        self.dirBrowse(1)
+
+    def newImage(self):
+
         self.getScreenRes()
         self.imgw = self.img.width()
         self.imgh = self.img.height()
@@ -162,9 +177,9 @@ class Shufti(ShuftiWindow):
             self.resize(self.imgw + 2, self.imgh + 2)
             self.show()
             self.resetScroll()
-        
+
     def oldImage(self):
-        
+
         if self.rotate == -90:
             self.rotval = 1
         elif self.rotate == -180:
@@ -177,16 +192,21 @@ class Shufti(ShuftiWindow):
         self.setGeometry(self.winposx, self.winposy, self.winsizex, self.winsizey)
         self.view.verticalScrollBar().setValue(self.vscroll)
         self.view.horizontalScrollBar().setValue(self.hscroll)
-        
+
     def toggleFullscreen(self):
-        
+
         if self.isFullScreen():
             self.showNormal()
         else:
             self.showFullScreen()
-            
+
+    def toggleSlideshow(self):
+        if self.slideshowTimer.isActive():
+            self.slideshowTimer.stop()
+        else:
+            self.slideshowTimer.start(self.slideTime)
+
     def keyPressEvent(self, event):
-        
         if event.key() == QtCore.Qt.Key_F11:
             self.toggleFullscreen()
         elif event.key() == QtCore.Qt.Key_Equal or event.key() == QtCore.Qt.Key_E:
@@ -209,15 +229,17 @@ class Shufti(ShuftiWindow):
             self.vertMax()
         elif event.key() == QtCore.Qt.Key_Z:
             self.horizMax()
+        elif event.key() == QtCore.Qt.Key_P:
+            self.toggleSlideshow()
         elif event.key() == QtCore.Qt.Key_Q:
             self.close()
-            
+
     def mouseDoubleClickEvent(self, event):
-        
+
         self.toggleFullscreen()
-            
+
     def createDB(self):
-        
+
         if not os.path.exists(self.dbdir):
             os.makedirs(self.dbdir)
         self.db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
@@ -228,24 +250,24 @@ class Shufti(ShuftiWindow):
         "zoom real, winposx int, winposy int, winsizex int, winsizey int, "
         "hscroll int, vscroll int, rotate int)")
         return True
-        
+
     def zoomIn(self):
-        
+
         self.zoom *= 1.05
         self.updateView()
-        
+
     def zoomOut(self):
-        
+
         self.zoom /= 1.05
         self.updateView()
-        
+
     def zoomReset(self):
-        
+
         self.zoom = 1
         self.updateView()
-        
+
     def rotateImg(self, clock):
-        
+
         self.rotval += clock
         if self.rotval == 4:
             self.rotval = 0
@@ -253,9 +275,9 @@ class Shufti(ShuftiWindow):
             self.rotval = 3
         self.rotate = self.rotvals[self.rotval]
         self.updateView()
-        
+
     def fitView(self):
-        
+
         self.view.fitInView(self.scene.sceneRect(), QtCore.Qt.KeepAspectRatio)
         if self.rotate == 0:
             self.zoom = self.view.transform().m11()
@@ -265,37 +287,37 @@ class Shufti(ShuftiWindow):
             self.zoom = (self.view.transform().m11()) * -1
         else:
             self.zoom = self.view.transform().m12()
-        
+
     def updateView(self):
-        
+
         self.view.setTransform(QTransform().scale(self.zoom, self.zoom).rotate(self.rotate))
-        
+
     def winState(self):
-        
+
         self.winsizex = self.geometry().width()
         self.winsizey = self.geometry().height()
         self.vscroll = self.view.verticalScrollBar().value()
         self.hscroll = self.view.horizontalScrollBar().value()
         self.winposx = self.pos().x()
         self.winposy = self.pos().y()
-        
+
     def dbInsert(self):
-        
+
         self.query.exec_("insert into shuftery values('%s" % self.dbkey + 
         "', " + str(self.zoom) + ", " + str(self.winposx) + ", " + str(self.winposy) + 
         ", " + str(self.winsizex) + ", " + str(self.winsizey) + ", " + str(self.hscroll) + 
         ", " + str(self.vscroll) + ", " + str(self.rotate) + ")")
-        
+
     def dbUpdate(self):
-        
+
         self.query.exec_("update shuftery set zoom=" + str(self.zoom) + 
         ", winposx=" + str(self.winposx) + ", winposy=" + str(self.winposy) + 
         ", winsizex=" + str(self.winsizex) + ", winsizey=" + str(self.winsizey) + 
         ", hscroll=" + str(self.hscroll) + ", vscroll=" + str(self.vscroll) + 
         ", rotate=" + str(self.rotate) + " where filename='%s'" % self.dbkey)
-        
+
     def dbSearch(self, field):
-        
+
         self.query.exec_("SELECT * FROM shuftery WHERE filename='%s'" % field)
         # If the image is found in shufti.db, load the previous view settings
         while self.query.next() and self.inshuft == 0:
@@ -308,15 +330,15 @@ class Shufti(ShuftiWindow):
             self.vscroll = self.query.value(7)
             self.rotate = self.query.value(8)
             self.inshuft = 1
-    
+
     def dbSanitise(self):
-        
+
         self.dbkey = self.key.replace("\"", "\"\"")
         self.dbkey = self.dbkey.replace("\'", "\'\'")
         self.dbkey = self.dbkey.replace("\\", "\\\\")
-        
+
     def dirBrowse(self, direc):
-        
+
         if len(self.imgfiles) > 1:
             self.dirpos += direc
             if self.dirpos > (len(self.imgfiles) - 1):
@@ -342,41 +364,41 @@ class Shufti(ShuftiWindow):
                 self.newImage()
             else:
                 self.oldImage()
-                
+
     def vertMax(self):
-        
+
         self.getScreenRes()
         self.winsizex = self.geometry().width()
         self.winposx = self.pos().x()
         self.setGeometry(self.winposx, 0, self.winsizex, self.screenh)
-        
+
     def horizMax(self):
-        
+
         self.getScreenRes()
         self.winsizey = self.geometry().height()
         self.winposy = self.pos().y()
         self.setGeometry(0, self.winposy, self.screenw, self.winsizey)
-        
+
     def resetScroll(self):
 
         self.view.verticalScrollBar().setValue(0)
         self.view.horizontalScrollBar().setValue(0)
-        
+
     def getScreenRes(self):
 
         self.screen_res = app.desktop().availableGeometry()
         self.screenw = self.screen_res.width()
         self.screenh = self.screen_res.height()
-        
+
     def about(self):
-        
+
         self.pop = AboutShufti()
         self.pop.resize(555, 333)
         self.pop.setWindowTitle("About shufti")
         self.pop.show()
-        
+
 if __name__ == '__main__':
-    
+
     app = QApplication(sys.argv)
     shufti = Shufti()
     sys.exit(app.exec_())
