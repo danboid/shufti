@@ -98,10 +98,3 @@ shufti isn't able to dynamically resize its window when browsing images within a
 
 If you use multiple displays and one is higher resolution than the others, shufti's horizontal and vertical maximise features only work properly when the largest display is configured as the primary desktop.
 
-## DONATIONS
-
-If you find shufti useful, please make a donation via PayPal. 
-
-Thanks!
-
-**allcoms at gmail dot com**
