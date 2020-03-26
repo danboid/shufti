@@ -3,7 +3,7 @@
 '''
 shufti 2.3 - The persistent image viewer
 
-By Dan MacDonald, 2017.
+By Dan MacDonald
 
 Licensed under the latest GNU Affero GPL license.
 
@@ -73,7 +73,7 @@ class AboutShufti(QLabel):
 
     def __init__(self):
 
-        QLabel.__init__(self,"shufti 2.3\n\nBy Dan MacDonald, 2017\n\nIf you find shufti useful, please make a donation via PayPal\n\nallcoms@gmail.com\n\nThanks!")
+        QLabel.__init__(self,"shufti 2.3\n\nBy Dan MacDonald")
         self.setAlignment(QtCore.Qt.AlignCenter)
 
     def initUI(self):
