@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 '''
-shufti 2.3 - The persistent image viewer
+shufti 2.4 - The persistent image viewer
 
 By Dan MacDonald
 
@@ -9,7 +9,9 @@ Licensed under the latest GNU Affero GPL license.
 
 Usage:
 
-shufti.py /path/to/image
+shufti.py /path/to/image slideshow-delay-in-milliseconds
+
+The slideshow delay value is optional and defaults to 4000 ms (4 second delay)
 
 You may want to associate shufti with image files in your file manager rather than
 use it from the terminal.
@@ -73,7 +75,7 @@ class AboutShufti(QLabel):
 
     def __init__(self):
 
-        QLabel.__init__(self,"shufti 2.3\n\nBy Dan MacDonald")
+        QLabel.__init__(self,"shufti 2.4\n\nBy Dan MacDonald")
         self.setAlignment(QtCore.Qt.AlignCenter)
 
     def initUI(self):
@@ -94,7 +96,7 @@ class Shufti(ShuftiWindow):
         try:
             self.key = sys.argv[1]
         except IndexError:
-            print('\nshufti 2.3\n\nTo use shufti from the terminal, you must specify the full path to an image as a parameter.\n')
+            print('\nshufti 2.4\n\nYou must specify the full path to an image for the first parameter and, optionally, a slideshow delay value in ms\n')
             sys.exit(1)
         self.dbSanitise()
         self.formats = ('.png', '.jpg', '.jpeg', '.gif', '.bmp', '.pbm', '.pgm', '.ppm',
@@ -104,6 +106,15 @@ class Shufti(ShuftiWindow):
         except IOError:
             print('There was an error opening the file')
             sys.exit(1)
+            
+        if len(sys.argv) > 2:
+            try:
+                self.slideTime = int(sys.argv[2])
+            except ValueError:
+                print('Invalid slideshow delay value')
+                sys.exit(1)
+        else:
+            self.slideTime = 4000
 
         if self.key.lower().endswith(self.formats):
             # If inshuft = 0, the image is not in shufti's image database
@@ -149,7 +160,6 @@ class Shufti(ShuftiWindow):
             sys.exit(1)
 
         # Prepare automatic slideshow
-        self.slideTime = 4000
         self.slideshowTimer = QtCore.QTimer(self)
         self.slideshowTimer.timeout.connect(self.slideshowNext)
         self.slideshowTimer.setSingleShot(False)

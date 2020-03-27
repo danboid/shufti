@@ -19,7 +19,7 @@ Windows users can download an installer from the Releases section.
 Arch users can install shufti with an AUR helper like so:
 
 ```
- $ packer -S shufti
+ $ yay -S shufti
 ```
 
 For Debian and Ubuntu-based distros, run these commands to manually install shufti from Github:
@@ -43,8 +43,10 @@ After installing shufti you need to right-click on an image file in your file ma
 You can also run shufti from the command line. This is the only way to use it under macOS currently. Under a UNIX-like OS, you'd run:
 
 ```
- $ shufti /full/path/to/image/file
+ $ shufti /full/path/to/image/file slideshow-delay-in-ms
 ```
+
+The slideshow delay parameter is optional and defaults to 4000 (4 second delay between images).
 
 If you're running shufti from the Windows command prompt using the .exe, the command would look more like:
 
