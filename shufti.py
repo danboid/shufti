@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 
 '''
-shufti 2.4 - The persistent image viewer
+shufti 2.4
+
+The persistent image viewer
 
 By Dan MacDonald
 
-Licensed under the latest GNU Affero GPL license.
+Licensed under the BSD-2-Clause license, see https://opensource.org/licenses/BSD-2-Clause
 
 Usage:
 

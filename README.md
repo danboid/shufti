@@ -4,11 +4,11 @@
 
 ### By Dan MacDonald
 
-**shufti** is a lightweight, PyQt-based image viewer. It automatically saves and restores the zoom level, rotation, window size, desktop location and the scrollbar positions (ie viewing area) for every image it loads, on a per-image/location basis. It supports viewing .jpg, .png, .gif, .tif and .bmp files, amongst others.
+**shufti** is a lightweight, PyQt-based image viewer. It automatically saves and restores the zoom level, rotation, window size, desktop location and the scroll bar positions (viewing area) for every image it loads, on a per-image basis. It can view most image files including .jpg, .png, .gif, .tif and .bmp files.
 
-**shufti** has no GUI to consume precious image viewing space. It aims to be efficient and lightweight hence it will never edit images, play videos or do you a brew. Every images view settings are saved to a local SQlite database on your computer - shufti never modifies any image files.
+**shufti** has a very minimal GUI to consume image viewing space. It aims to be efficient and lightweight hence it doesn't edit images, play videos or do you a brew. Every image's view settings are saved to a local SQlite database file on your local disk. shufti never modifies image files.
 
-**shufti** is free and open source software licensed under the latest GNU Affero GPL license and should run on any platform that can run PyQt - that includes GNU/Linux, *BSD, macOS and Windows.
+**shufti** is free and open source software licensed under the BSD-2-Clause license and should run on any platform that can run PyQt which includes Linux, *BSD (tested under FreeBSD), macOS and Windows.
 
 ## INSTALLATION
 
@@ -46,7 +46,7 @@ You can also run shufti from the command line. This is the only way to use it un
  $ shufti /full/path/to/image/file slideshow-delay-in-ms
 ```
 
-The slideshow delay parameter is optional and defaults to 4000 (4 second delay between images).
+The slideshow delay parameter is optional and defaults to 4000 eg a 4 second delay between images when slideshow mode is active. It must be an integer.
 
 If you're running shufti from the Windows command prompt using the .exe, the command would look more like:
 
@@ -56,7 +56,7 @@ If you're running shufti from the Windows command prompt using the .exe, the com
 
 To view a file. Shufti requires you use the full path to the image you wish to open first.
 
-The view settings are saved when you close a window or choose to view the next/previous image. These settings are restored next time you open or browse to the file.
+The view settings are saved when you close a window or choose to view the next/previous image. These settings are restored next time you open or browse to the same file.
 
 
 
@@ -88,15 +88,14 @@ The view settings are saved when you close a window or choose to view the next/p
 
 **q** quits.
 
-Note that the easiest way to resize windows under most Linux/BSD desktops is to hold the ALT key then right-click and drag near the window edge you wish to resize. This saves the user from having to precisely position the cursor over a window edge to resize it.
+Note that the easiest way to resize windows under most Linux/BSD desktop environments is to hold the ALT key then right-click and drag near the window edge you wish to resize. This saves the user from having to precisely position the cursor over a window edge to resize it.
 
 ## LIMITATIONS
 
 shufti requires that you maintain the same display configuration to restore image windows correctly.
 
-Whilst shufti allows you to view images fullscreen, it is really intended for the viewing of images in non-fullscreen windows. If you use its directory browsing ability, you should exit fullscreen mode before moving to the next image.
+Whilst shufti allows you to view images full screen, it is really intended for the viewing of images in non-full screen windows. If you use its directory browsing ability, you should exit full screen mode before moving to the next image.
 
 shufti isn't able to dynamically resize its window when browsing images within a directory if its window has been maximised vertically or horizontally by the window manager. This is the case for both KDE (Kwin) and MATE (Marco), at least. If you wish to maximise a window horizontally or vertically, do so using shufti's maximise features or do it manually instead of using your window manager or desktop environment to do it.
 
 If you use multiple displays and one is higher resolution than the others, shufti's horizontal and vertical maximise features only work properly when the largest display is configured as the primary desktop.
-
