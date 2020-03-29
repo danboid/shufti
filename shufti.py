@@ -1,22 +1,26 @@
 #!/usr/bin/env python
 
 '''
+
 shufti 2.4
 
 The persistent image viewer
 
-By Dan MacDonald
+By Dan MacDonald 2017-2020
 
-Licensed under the BSD-2-Clause license, see https://opensource.org/licenses/BSD-2-Clause
+
+shufti is free software. You can use, redistribute it and/or modify it under the terms of the included LICENSE file which is based on the BSD-2-Clause license.
+
+
 
 Usage:
 
-shufti.py /path/to/image slideshow-delay-in-milliseconds
+$ shufti.py /path/to/image slideshow-delay-in-milliseconds
 
-The slideshow delay value is optional and defaults to 4000 ms (4 second delay)
+The slideshow delay value (milliseconds) is optional and defaults to 4000 ms ie a 4 second delay when slideshow mode is active.
 
-You may want to associate shufti with image files in your file manager rather than
-use it from the terminal.
+You may want to associate shufti with image files in your file manager rather than use it from the terminal.
+
 '''
 
 import os, sys, glob
