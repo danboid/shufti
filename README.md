@@ -10,6 +10,8 @@
 
 **shufti** is free and open source software licensed under the BSD-2-Clause license and should run on any platform that can run PyQt which includes Linux, *BSD (tested under FreeBSD), macOS and Windows.
 
+shufti only works with xorg desktops and window managers. It is not compatible with Wayland.
+
 ## INSTALLATION
 
 Windows users can download an installer from the Releases section.
